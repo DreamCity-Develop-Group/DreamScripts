@@ -135,7 +135,7 @@ namespace Assets.Scripts.UI.LoginUI
             {
 
                 HintMsg hintMsg = new HintMsg();
-                hintMsg.Change(LanguageService.Instance.GetStringByKey("Ð­Òé", String.Empty), Color.white);
+                hintMsg.Change(LanguageService.Instance.GetStringByKey("Ð­ï¿½ï¿½", String.Empty), Color.white);
                 Dispatch(AreaCode.UI,UIEvent.HINT_ACTIVE, hintMsg);
             }  
         }

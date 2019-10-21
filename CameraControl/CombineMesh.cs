@@ -64,7 +64,7 @@ public class CombineMesh : MonoBehaviour
 
             Mesh meshCombine = mfChildren[i].mesh;
             Vector2[] uvs = new Vector2[meshCombine.uv.Length];
-            //°ÑÍø¸ñµÄuv¸ù¾ÝÌùÍ¼µÄrectË¢Ò»±é
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uvï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½rectË¢Ò»ï¿½ï¿½
             for (int j = 0; j < uvs.Length; j++)
             {
                 uvs[j].x = rect.x + meshCombine.uv[j].x * rect.width;
@@ -78,7 +78,7 @@ public class CombineMesh : MonoBehaviour
 
 
         Mesh newMesh = new Mesh();
-        newMesh.CombineMeshes(combine, true, true);//ºÏ²¢Íø¸ñ
+        newMesh.CombineMeshes(combine, true, true);//ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½
         mfSelf.mesh = newMesh;
     }
 

@@ -13,7 +13,6 @@ namespace Assets.Scripts.UI.MenuUI
     /// </summary>
     public class SetPanel : UIBase
     {
-        private HelpPanel help;
         private GameObject MusicClik;               //点击状态的音效按钮
         private GameObject SecutiryClik;            //点击状态的安全设置按钮
         private GameObject HelpClik;                //点击状态的帮助按钮
@@ -89,7 +88,6 @@ namespace Assets.Scripts.UI.MenuUI
             PanelSound = transform.Find("PanelSound").gameObject;
             panelSecutiry = transform.Find("panelSecutiry").gameObject;
             PanelHelp = transform.Find("PanelHelp").gameObject;
-            help = PanelHelp.GetComponent<HelpPanel>();
             panelSecutiry.SetActive(false);
             PanelHelp.SetActive(false);
             SoundBtn = PanelSound.transform.Find("BtnGameMusic ").GetComponent<Button>();
@@ -98,19 +96,7 @@ namespace Assets.Scripts.UI.MenuUI
             MusicBtn.onClick.AddListener(MuiscClick);
             SoundImg = SoundBtn.GetComponent<Image>();
             MusicImg = MusicBtn.GetComponent<Image>();
-      
-            //ChangeLoginPassword = panelSecutiry.transform.Find("BtnChangePW/Text").GetComponent<Text>();
-            //LogOut = panelSecutiry.transform.Find("BtnExit/Text").GetComponent<Text>();
-            //TransactionCode = panelSecutiry.transform.Find("BtnChangeExPW/Text").GetComponent<Text>();
-            //switch (setUp)
-            //{
-            //    case 0:
-            //        TransactionCode.text = "设置交易密码";
-            //        break;
-            //    case 1:
-            //        TransactionCode.text = "修改交易密码";
-            //        break;
-            //}
+                
             btnChangeExPW.onClick.AddListener(clickChangeTradePassword);
             btnChangePW.onClick.AddListener(clickChangeLoginPassword);
 
@@ -135,12 +121,19 @@ namespace Assets.Scripts.UI.MenuUI
             btnPanelMusic.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Sound");
             btnHelp.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Help");
             btnChangePW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ChangeLoginPassword");
-            btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ChangeTradePassword");
             btnExit.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/LoggedOut");
             SoundImg.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Switch0");
             MusicImg.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Switch1");
             soundTxt = PanelSound.transform.Find("Effect/Text").GetComponent<Text>();
-            musicTxt = PanelSound.transform.Find("music/Text").GetComponent<Text>();          
+            musicTxt = PanelSound.transform.Find("music/Text").GetComponent<Text>();
+            if (CacheData.Instance().isHasTradePassword)
+            {
+                btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ChangeTradePassword");
+            }
+            else
+            {
+                btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/SetTransactionPassword");
+            }
 
         }
         /// <summary>
@@ -269,7 +262,7 @@ namespace Assets.Scripts.UI.MenuUI
             Dispatch(AreaCode.UI, UIEvent.VOICE_PANEL_ACTIVE, false);
             setPanelActive(false);
             ConCamera.IsActivateTouch = true;
-            help.Initialize();
+            HelpPanel.Instance.Initialize();
         }
         public override void OnDestroy()
         {

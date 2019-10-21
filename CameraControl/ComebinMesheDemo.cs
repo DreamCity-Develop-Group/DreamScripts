@@ -6,17 +6,17 @@ public class ComebinMesheDemo : MonoBehaviour
 {
     void Start()
     {
-        //»ñÈ¡ËùÓÐÍø¸ñ¹ýÂËÆ÷;
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
         MeshFilter[] meshFilters = gameObject.GetComponentsInChildren<MeshFilter>();
-        //´æ·Å²»Í¬µÄ²ÄÖÊÇò£¬ÏàÍ¬µÄ¾Í´æÒ»¸ö;
+        //ï¿½ï¿½Å²ï¿½Í¬ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ä¾Í´ï¿½Ò»ï¿½ï¿½;
         Dictionary<string, Material> materials = new Dictionary<string, Material>();
-        //´æ·ÅÒªºÏ²¢µÄÍø¸ñ¶ÔÏó;
+        //ï¿½ï¿½ï¿½Òªï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
         Dictionary<string, List<CombineInstance>> combines = new Dictionary<string, List<CombineInstance>>();
         for (int i = 0; i < meshFilters.Length; i++)
         {
-            //¹¹ÔìÒ»¸öÍø¸ñºÏ²¢½á¹¹Ìå;
+            //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½á¹¹ï¿½ï¿½;
             CombineInstance combine = new CombineInstance();
-            //¸ø½á¹¹ÌåµÄmesh¸³Öµ;
+            //ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½ï¿½meshï¿½ï¿½Öµ;
             combine.mesh = meshFilters[i].mesh;
             combine.transform = meshFilters[i].transform.localToWorldMatrix;
             MeshRenderer renderer = meshFilters[i].GetComponent<MeshRenderer>();
@@ -45,10 +45,10 @@ public class ComebinMesheDemo : MonoBehaviour
             obj.transform.parent = combineObj.transform;
             MeshFilter combineMeshFilter = obj.AddComponent<MeshFilter>();
             combineMeshFilter.mesh = new Mesh();
-            //½«ÒýÓÃÏàÍ¬²ÄÖÊÇòµÄÍø¸ñºÏ²¢;
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½;
             combineMeshFilter.mesh.CombineMeshes(combines[mater.Key].ToArray(), true, true);
             MeshRenderer rend = obj.AddComponent<MeshRenderer>();
-            //Ö¸¶¨²ÄÖÊÇò;
+            //Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
             rend.sharedMaterial = mater.Value;
             //rend.castShadows = false;
             rend.receiveShadows = true;

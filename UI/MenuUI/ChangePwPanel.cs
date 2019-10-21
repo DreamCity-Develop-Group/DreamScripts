@@ -46,10 +46,7 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 case UIEvent.CHANGELONG_ACTIVE:
                     setPanelActive((bool)message);
-                    _inputFieldMobile.text = "";
-                    _inputFieldVerification.text = "";
-                    _inputFieldCurrentPassword.text = "";
-                    _inputFieldNewPassword.text = "";
+                    ClearInputRecord();
                     break;
                 case UIEvent.REG_PANEL_CODEVIEW:
                     _inputFieldVerification.text = message.ToString();
@@ -115,6 +112,12 @@ namespace Assets.Scripts.UI.MenuUI
             //{
             //    _btnConfirm.gameObject.SetActive(true);
             //}
+        }
+        private void ClearInputRecord()
+        {
+            _inputFieldVerification.text = "";
+            _inputFieldCurrentPassword.text = "";
+            _inputFieldNewPassword.text = "";
         }
     }
 }

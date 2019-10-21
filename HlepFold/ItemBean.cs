@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.HlepFold
+namespace Assets.Scripts.HlepFold
 {
     public class ItemBean:ItemBeanbase
     {

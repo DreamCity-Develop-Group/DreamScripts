@@ -36,11 +36,13 @@ namespace Assets.Scripts.UI.MenuUI
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
         List<UserInfos> squareData;
-        private GameObject PersonalInformationBox;           //列表信息框预制体
+        private GameObject PersonalInformationBox1;           //列表信息框预制体1
+        private GameObject PersonalInformationBox0;           //列表信息框预制体0  
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
         private Button InABatchBtn;                          //换一批按钮
         private string language;
+        private int CreateCount = 0;                        //创建个数
 
 
 
@@ -66,7 +68,15 @@ namespace Assets.Scripts.UI.MenuUI
                         GameObject obj = null;
                         foreach (var t in squareData)
                         {
-                            obj = CreatePreObj(PersonalInformationBox, ListBox);
+                            if(CreateCount%2==0)
+                            {
+                                obj = CreatePreObj(PersonalInformationBox0, ListBox);
+                            }
+                            else
+                            {
+                                obj = CreatePreObj(PersonalInformationBox1, ListBox);
+                            }
+                            CreateCount++;
                             obj.transform.SetParent(ListBox);
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
@@ -91,6 +101,7 @@ namespace Assets.Scripts.UI.MenuUI
                                     setPanelActive(false);
                                     Dispatch(AreaCode.UI,UIEvent.FRIENDMENU_PANEL_ACTIVE,false);
                                     Dispatch(AreaCode.NET, ReqEventType.invest_info, t.playerId);
+                                    ConCamera.IsActivateTouch = true;
                                 }
                             );
                         }
@@ -104,7 +115,8 @@ namespace Assets.Scripts.UI.MenuUI
         // Start is called before the first frame update
         void Start()
         {
-            PersonalInformationBox = Resources.Load("PerFab/SquareFriend1") as GameObject;
+            PersonalInformationBox1 = Resources.Load("PerFab/SquareFriend1") as GameObject;
+            PersonalInformationBox0 = Resources.Load("PerFab/SquareFriend0") as GameObject;
             ListBox = transform.Find("SquareFriendsList/Viewport/Content");
             InABatchBtn = transform.Find("BtnNextGround").GetComponent<Button>();
             InABatchBtn.onClick.AddListener(clickInABatch);

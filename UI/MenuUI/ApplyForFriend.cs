@@ -37,7 +37,8 @@ namespace Assets.Scripts.UI.MenuUI
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
         List<UserInfos> dicSquareData = new List<UserInfos>();
-        private GameObject PersonalInformationBox;           //列表信息框预制体
+        private GameObject PersonalInformationBox0;           //列表信息框预制体
+        private GameObject PersonalInformationBox1;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
         Dictionary<string, string> t = new Dictionary<string, string>()
@@ -67,34 +68,41 @@ namespace Assets.Scripts.UI.MenuUI
                         GameObject obj = null;
                         for (int i = 0; i < dicSquareData.Count; i++)
                         {
-                            obj = CreatePreObj(PersonalInformationBox, ListBox);
+                            if (i % 2 == 0)
+                            {
+                                obj = CreatePreObj(PersonalInformationBox0, ListBox);
+                            }
+                            else
+                            {
+                                obj = CreatePreObj(PersonalInformationBox1, ListBox);
+                            }
                             obj.transform.SetParent(ListBox);
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
                             string nick = dicSquareData[i].nick;
-                        obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].nick;
-                        obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].grade;
-                        //obj.transform.Find("Hand").GetComponent<Image>().sprite = 
-                         obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener(()=>
-                         {
-                             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-                             t["nick"] = nick;
-                             t["agree"] = "agreed";
-                             Dispatch(AreaCode.NET,ReqEventType.applytofriend,t);
+                            obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].nick;
+                            obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].grade;
+                            //obj.transform.Find("Hand").GetComponent<Image>().sprite = 
+                            obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener(() =>
+                            {
+                                Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
+                                t["nick"] = nick;
+                                t["agree"] = "agreed";
+                                Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
 
-                             RePreObj(obj);
+                                RePreObj(obj);
 
-                         });
-                         obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener(() =>
-                         {
-                             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-                             t["nick"] = nick;
-                             t["agree"] = "disagreed";
-                             Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
+                            });
+                            obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener(() =>
+                            {
+                                Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
+                                t["nick"] = nick;
+                                t["agree"] = "disagreed";
+                                Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
 
-                             RePreObj(obj);
-                         });
+                                RePreObj(obj);
+                            });
                         }
                     }
                     //TODO
@@ -106,7 +114,8 @@ namespace Assets.Scripts.UI.MenuUI
         // Start is called before the first frame update
         void Start()
         {
-            PersonalInformationBox = Resources.Load("PerFab/AppLYFriend") as GameObject;
+            PersonalInformationBox0 = Resources.Load("PerFab/ToApplyForFrame0") as GameObject;
+            PersonalInformationBox1 = Resources.Load("PerFab/ToApplyForFrame1") as GameObject;
             ListBox = transform.Find("Viewport/Content");
             setPanelActive(false);
         }
