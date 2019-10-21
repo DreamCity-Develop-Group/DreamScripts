@@ -33,6 +33,10 @@ namespace Assets.Scripts.UI
         Text storeName;
         Text proIncome;
         Text investUSDT;
+
+        private GameObject exactGameObject;
+        private GameObject personGameObject;
+        private GameObject componeyGameObject;
         /// <summary>
         /// 定额税
         /// </summary>
@@ -99,6 +103,10 @@ namespace Assets.Scripts.UI
         }
         private void Start()
         {
+            exactGameObject = transform.Find("StorePrefab/StoreInfoPanel/ExactTax").gameObject;
+            personGameObject = transform.Find("StorePrefab/StoreInfoPanel/PersonTax").gameObject;
+            componeyGameObject = transform.Find("StorePrefab/StoreInfoPanel/ComponeyTax").gameObject;
+
             btnExtract = transform.Find("StorePrefab/BtnExtract").GetComponent<Button>();
             storeName = transform.Find("StorePrefab/StoreInfoPanel/StoreName").GetComponent<Text>();
             proIncome = transform.Find("StorePrefab/StoreInfoPanel/HeadProIncome/ProIncome").GetComponent<Text>(); 
@@ -158,43 +166,27 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void SceneInvestOnclick(string inType)
         {
-            //InvestInfo investInfo = CacheData.Instance().InvestData
-            //if (CacheQueueStores.Count > 0)
-            //{
-            //    gameobject = CacheQueueStores.Dequeue();
-            //   // QueueStores.Enqueue(gameobject);
-            //}
-            //else
-            //{
-            //    initStore();
-            //}
-            //btnOrder = gameobject.transform.Find("StoreImage/BtnOrder").GetComponent<Button>();
-            //storeName = gameobject.transform.Find("StoreInfoPanel/StoreName").GetComponent<Text>();
-            //incomeUSDT = gameobject.transform.Find("StoreInfoPanel/HeadIncomeUSDT/IncomeUSDT").GetComponent<Text>();
-            //quotaTax = gameobject.transform.Find("StoreInfoPanel/HeadQuotaTax/QuotaTax").GetComponent<Text>();
-            //proIncome = gameobject.transform.Find("StoreInfoPanel/HeadProIncome/ProIncome").GetComponent<Text>();
-            //investUSDT = gameobject.transform.Find("StoreInfoPanel/HeadInvestUSDT/InvestUSDT").GetComponent<Text>();
-            //btnOrder.onClick.AddListener(clickOrder);
-            //null 条件
             if (inType == "11")
             {
-                personTax.gameObject.transform.parent.gameObject.SetActive(false);
-                componeyTax.gameObject.transform.parent.gameObject.SetActive(false);
-                exactTax.gameObject.transform.parent.gameObject.SetActive(true); 
-                exactTax.text = CacheData.Instance().InvestData[inType].extractable.ToString();
+                personGameObject.SetActive(false);
+                componeyGameObject.SetActive(false);
+                exactGameObject.SetActive(true); 
+                exactTax.text = CacheData.Instance().InvestData[inType].quotaTax.ToString();
             }
-            exactTax.gameObject.transform.parent.gameObject.SetActive(false);
-            personTax.gameObject.transform.parent.gameObject.SetActive(true);
-            componeyTax.gameObject.transform.parent.gameObject.SetActive(true);
-            
+            else
+            {
+                personGameObject.SetActive(true);
+                componeyGameObject.SetActive(true);
+                exactGameObject.SetActive(false);
+                personTax.text = CacheData.Instance().InvestData[inType].personTax.ToString("0.##%");
+                componeyTax.text = CacheData.Instance().InvestData[inType].enterpriseTax.ToString("0.##%");
+            }
             imageStoreMenu.sprite = Resources.Load("UI/investImg/" + inType + "大@2x",typeof(Sprite)) as Sprite;
             imageStoreMenu.SetNativeSize();
             storeInfo = dicStores[inType];
             storeName.text = storeInfo.投资名称;
             expectGetInterestTime.text = LanguageService.Instance.GetStringByKey("resultTime", string.Empty)
                 .Replace("resultTime", CacheData.Instance().InvestData[inType].resultTime);
-            personTax.text = CacheData.Instance().InvestData[inType].personTax.ToString("0.##%");
-            componeyTax.text = CacheData.Instance().InvestData[inType].enterpriseTax.ToString("0.##%");
             investUSDT.text = CacheData.Instance().InvestData[inType].investMoney.ToString("#0.00");
             proIncome.text = CacheData.Instance().InvestData[inType].expectIncome.ToString("#0.00");
             if (CacheData.Instance().InvestData[inType].openState == "Y")

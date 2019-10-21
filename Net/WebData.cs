@@ -110,12 +110,10 @@ namespace Assets.Scripts.Net
         /// 登录消息依次加载存储队列
         /// </summary>
         //public Queue<string> CacheData = new Queue<string>() {"","" };
-
         public void OpenWebSocket()
         {
             //if (_webSocket == null)
             //{
-               
                 address = "ws://"+"156.236.69.200"+":8010/dream/city/topic/"+"none";
                _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)

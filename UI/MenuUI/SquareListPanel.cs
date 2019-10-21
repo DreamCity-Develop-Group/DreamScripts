@@ -159,6 +159,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void clickInABatch()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
+            Dispatch(AreaCode.NET,ReqEventType.searchfriend,null);
         }     
         /// <summary>
         /// 点击加好友做什么
