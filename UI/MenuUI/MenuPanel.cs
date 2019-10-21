@@ -114,7 +114,7 @@ namespace Assets.Scripts.UI.MenuUI
                     {
                         homePanel.SetActive(false);
                         textNickName.text =user.nick;
-                        textLv.text = user.grade;
+                        textLv.text = string.IsNullOrEmpty(user.grade)?"Lv0":"Lv"+ user.grade;
                         btnHome.gameObject.SetActive(true);
                     }
                     else

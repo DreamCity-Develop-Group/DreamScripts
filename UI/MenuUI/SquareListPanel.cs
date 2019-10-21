@@ -73,7 +73,7 @@ namespace Assets.Scripts.UI.MenuUI
                             //obj里可以查找显示信息的物体，然后在赋值
                             string friendNick= t.nick;
                             obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
-                            obj.transform.Find("LV").GetComponent<Text>().text = t.grade;
+                            obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t.grade) ? "Lv0" : "Lv" + t.grade;
                             obj.transform.Find("Add").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
                             var obj1 = obj;
                             obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(()=>
