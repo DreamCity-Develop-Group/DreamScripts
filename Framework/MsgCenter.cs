@@ -1,0 +1,76 @@
+using Assets.Scripts.Audio;
+using Assets.Scripts.Net;
+using Assets.Scripts.Scenes;
+using Assets.Scripts.UI;
+using Assets.Scripts.UI.LoginUI;
+
+namespace Assets.Scripts.Framework
+{
+    /// <summary>
+    /// 消息处理中心
+    ///     只负责消息的转发
+    ///     
+    ///     ui -> msgCenter ->  character 
+    /// </summary>
+    public class MsgCenter : MonoBase
+    {
+        //TODO测试用
+
+        public static MsgCenter Instance = null;
+
+        void Awake()
+        {
+            Instance = this;
+
+            gameObject.AddComponent<AudioManager>();
+            gameObject.AddComponent<UIManager>();
+            gameObject.AddComponent<WebSocketManager>();
+            //gameObject.AddComponent<CharacterManager>();
+            gameObject.AddComponent<ScenesMgr>();
+           // gameObject.AddComponent<SelectLanguage>();
+            DontDestroyOnLoad(gameObject);
+        }
+
+        /// <summary>
+        /// 发送消息 系统里面所有的发消息 都通过这个方法来发
+        ///   怎么转发？根据不同的模块 来发给 不同的模块 
+        ///     怎么识别模块呢？通过 areaCode
+        /// 
+        ///     第二个参数：事件码 作用？用来区分 做什么事情的
+        ///         比如说 第一个参数 识别到是角色模块 但是角色模块有很多功能 比如 移动 攻击 死亡 逃跑...
+        ///             就需要第二个参数 来识别 具体是做哪一个动作
+        /// </summary>
+        public void Dispatch(int areaCode, int eventCode,  object message)
+        {
+            switch (areaCode)
+            {
+                case AreaCode.AUDIO:
+                    AudioManager.Instance.Execute(eventCode, message);
+                    break;
+
+                case AreaCode.CHARACTER:
+                    //CharacterManager.Instance.Execute(eventCode, message);
+                    break;
+
+                case AreaCode.NET:
+                    WebSocketManager.Instance.Execute(eventCode, message);
+                    break;
+
+                case AreaCode.GAME:
+                    break;
+
+                case AreaCode.UI:
+                    UIManager.Instance.Execute(eventCode, message);
+                    break;
+
+                case AreaCode.SCENE:
+                    ScenesMgr.Instance.Execute(eventCode, message);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    }
+}
