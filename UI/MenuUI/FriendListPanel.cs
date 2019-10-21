@@ -27,7 +27,8 @@ namespace Assets.Scripts.UI.MenuUI
         private void Awake()
         {
             Bind(UIEvent.FRIEND_LIST_PANEL_ACTIVE, UIEvent.FRIEND_LIST_PANEL_VIEW);
-            PersonalInformationBox = Resources.Load("PerFab/Friend") as GameObject;
+            PersonalInformationBox0 = Resources.Load("PerFab/FriendFrame0") as GameObject;
+            PersonalInformationBox1 = Resources.Load("PerFab/FriendFrame1") as GameObject;
             ListBox = transform.Find("FriendList/Viewport/Content");
         }
         /// <summary>
@@ -37,7 +38,8 @@ namespace Assets.Scripts.UI.MenuUI
         /// <param name="message"></param>
     
         List<UserInfos> dicFriendData = new List<UserInfos>();
-        private GameObject PersonalInformationBox;           //列表信息框预制体
+        private GameObject PersonalInformationBox0;           //列表信息框预制体
+        private GameObject PersonalInformationBox1;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
 
@@ -66,7 +68,14 @@ namespace Assets.Scripts.UI.MenuUI
                         GameObject obj = null;
                         for (int i = 0; i < dicFriendData.Count; i++)
                         {
-                            obj = CreatePreObj(PersonalInformationBox, ListBox);
+                            if(i%2==0)
+                            {
+                                obj = CreatePreObj(PersonalInformationBox0, ListBox);
+                            }
+                            else
+                            {
+                                obj = CreatePreObj(PersonalInformationBox1, ListBox);
+                            }
                             obj.transform.SetParent(ListBox);
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
@@ -81,6 +90,7 @@ namespace Assets.Scripts.UI.MenuUI
                                 setPanelActive(false);
                                 Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
                                 Dispatch(AreaCode.NET,ReqEventType.invest_info, dicFriendData[i].playerId);
+                                ConCamera.IsActivateTouch = true;
                                 
                             }
                         );

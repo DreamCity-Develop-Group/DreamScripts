@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Audio;
 using Assets.Scripts.Framework;
 using System.Collections;
 using System.Collections.Generic;

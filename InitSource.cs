@@ -6,9 +6,9 @@ using UnityEngine.UI;
 /***
   * Title:     
   *
-  * Created:	#AuthorName#
+  * Created:	zp
   *
-  * CreatTime:          #CreateTime#
+  * CreatTime:          2019/10/21 17:41:49
   *
   * Description:
   *

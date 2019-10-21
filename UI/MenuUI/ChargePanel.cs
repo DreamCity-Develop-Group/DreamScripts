@@ -165,7 +165,7 @@ namespace Assets.Scripts.UI.MenuUI
             positionMTNum.text = propertyInfo.total_mt;
             AvailableNum.text = propertyInfo.available_mt;
             FreezeMTNum.text = propertyInfo.frozen_mt;
-            ChamberLV.text = propertyInfo.commerce_lv;
+            ChamberLV.text = string.IsNullOrEmpty(propertyInfo.commerce_lv) ? "0" : propertyInfo.commerce_lv;
             ChamberNum.text = propertyInfo.commerce_member;
             if (CacheData.Instance().CommerceState == 2)
                 InviteCode.text = propertyInfo.invite;

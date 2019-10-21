@@ -60,9 +60,18 @@ public class HelpPanel : UIBase
     private bool HQuestion7 = false;
     private bool HQuestion8 = false;
     private bool HQuestion9 = false;
-
-    void Start()
+    private static HelpPanel instance;
+    public static HelpPanel Instance
     {
+        get { return instance; }
+    }
+
+
+
+
+    void Awake()
+    {
+        instance = this;
         RelationType = transform.Find("Scroll View/Viewport/Content/Relation").GetComponent<Button>();
         ChamberType = transform.Find("Scroll View/Viewport/Content/Type1").GetComponent<Button>();
         InvestmentType = transform.Find("Scroll View/Viewport/Content/Type2").GetComponent<Button>();
@@ -118,25 +127,62 @@ public class HelpPanel : UIBase
         TypeThreeQBtn[6].onClick.AddListener(TypeThreeQ7);
         TypeThreeQBtn[7].onClick.AddListener(TypeThreeQ8);
         TypeThreeQBtn[8].onClick.AddListener(TypeThreeQ9);
+    }
+    private void Start()
+    {
         RAnswer.SetActive(false);
         Initialize();
     }
     public void Initialize()
     {
+        TranType1.rotation = Quaternion.Euler(0, 0, 0);
+        TranType2.rotation = Quaternion.Euler(0, 0, 0);
+        TranType3.rotation = Quaternion.Euler(0, 0, 0);
+        IsClickRela = false;            //是否点击了联系
+        IsClickTypeOne = false;         //是否点击了类型1
+        IsClickTypeTwo = false;         //是否点击了类型2
+        IsClickTypeThree = false;       //是否点击了类型3
+
+        OQuestion1 = false;
+        OQuestion2 = false;
+        OQuestion3 = false;
+        OQuestion4 = false;
+        OQuestion5 = false;
+        OQuestion6 = false;
+
+        TQuestion1 = false;
+        TQuestion2 = false;
+        TQuestion3 = false;
+        TQuestion4 = false;
+        TQuestion5 = false;
+
+        HQuestion1 = false;
+        HQuestion2 = false;
+        HQuestion3 = false;
+        HQuestion4 = false;
+        HQuestion5 = false;
+        HQuestion6 = false;
+        HQuestion7 = false;
+        HQuestion8 = false;
+        HQuestion9 = false;
+        RAnswer.SetActive(false);
         for (int i = 0; i < TypeOneA.Length; i++)
         {
             TypeOneQ[i].SetActive(false);
             TypeOneA[i].SetActive(false);
+            tranTOne[i].rotation = Quaternion.Euler(0, 0, 0);
         }
         for (int i = 0; i < TypeTwoQ.Length; i++)
         {
             TypeTwoQ[i].SetActive(false);
             TypeTwoA[i].SetActive(false);
+            traTTwo[i].rotation = Quaternion.Euler(0, 0, 0);
         }
         for (int i = 0; i < TypeThreeQ.Length; i++)
         {
             TypeThreeQ[i].SetActive(false);
             TypeThreeA[i].SetActive(false);
+            tranTThree[i].rotation = Quaternion.Euler(0, 0, 0);
         }
     }
     /// <summary>
@@ -164,13 +210,13 @@ public class HelpPanel : UIBase
     private void ClickTypeOne()
     {
         Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-        if (!IsClickTypeTwo)
+        if (!IsClickTypeOne)
         {
             for (int i = 0; i < TypeOneQ.Length; i++)
             {
                 TypeOneQ[i].SetActive(true);
             }
-            IsClickTypeTwo = true;
+            IsClickTypeOne = true;
             TranType1.rotation = Quaternion.Euler(0, 0, 180);
         }
         else
@@ -180,7 +226,7 @@ public class HelpPanel : UIBase
                 TypeOneQ[i].SetActive(false);
                 TypeOneA[i].SetActive(false);
             }
-            IsClickTypeTwo = false;
+            IsClickTypeOne = false;
             TranType1.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
