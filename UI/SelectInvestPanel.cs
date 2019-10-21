@@ -210,6 +210,7 @@ namespace Assets.Scripts.UI
                         transformStore.GetComponent<RectTransform>().sizeDelta = new Vector2(width + 365, height);
                     }
                     //transformStore.GetComponent<RectTransform>().offsetMax.Set(width + 365,height);
+
                     storeImage = slectUIstore.transform.Find("Image").GetComponent<Image>();
                     storeNameText = slectUIstore.transform.Find("Text").GetComponent<Text>();
                     btnInvest = slectUIstore.transform.Find("BtnInvest").GetComponent<Button>();
@@ -251,88 +252,6 @@ namespace Assets.Scripts.UI
 
                 // m_SR.content.localPosition = Vector2.zero;
             }
-            /// <summary>
-            /// 解锁新可投资项目
-            /// </summary>
-            //void UnSockStore()
-            //{
-            //    foreach (var item2 in unlockStoreList)
-            //    {
-            //        foreach (var item in CacheData.Instance().InvestData)
-            //        {
-            //            if (item2.Equals(item.id))
-            //            {
-            //                //
-            //                GameObject slectUIstore = Instantiate(Resources.Load<GameObject>("Prefabs/SelectStorePrefab"), transformStore);
-            //                Button btnInvest;
-            //                if (slectUIstore != null)
-            //                {
-            //                    width = transformStore.GetComponent<RectTransform>().rect.width;
-            //                    transformStore.GetComponent<RectTransform>().sizeDelta=new Vector2(width + 365,height);
-            //                    //transformStore.GetComponent<RectTransform>().offsetMax.Set(width + 365,height);
-            //                    storeImage = slectUIstore.transform.Find("Image").GetComponent<Image>();
-            //                    storeNameText = slectUIstore.transform.Find("Text").GetComponent<Text>();
-            //                    btnInvest = slectUIstore.transform.Find("BtnInvest").GetComponent<Button>();
-            //                    btnStore = storeImage.GetComponent<Button>();
-            //                    CacheInvest.Add(item.id.ToString(), slectUIstore);
-            //                    switch (int.Parse(item2))
-            //                    {
-            //                        case 700:
-            //                            btnInvest.transform.Find("Text").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("700", String.Empty);
-            //                            btnInvest.interactable = true;
-            //                            if (btnInvest.IsInvoking())
-            //                            {
-            //                                btnInvest.onClick.RemoveAllListeners();
-            //                            }
-            //                            btnInvest.onClick.AddListener(() =>
-            //                            {
-            //                                Dispatch(AreaCode.NET, ReqEventType.invest_req, item.Value.investId);
-            //                                btnInvest.interactable = false;
-            //                            });
-            //                            break;
-            //                        case 701:
-            //                            btnInvest.transform.Find("Text").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("701", String.Empty);
-            //                            btnInvest.interactable = false;
-            //                            break;
-            //                        case 702:
-            //                            btnInvest.transform.Find("Text").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("702", String.Empty);
-            //                            btnInvest.interactable = false;
-            //                            break;
-            //                        case 703:
-            //                            btnInvest.transform.Find("Text").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("703", String.Empty);
-            //                            btnInvest.interactable = true;
-            //                            if (btnInvest.IsInvoking())
-            //                            {
-            //                                btnInvest.onClick.RemoveAllListeners();
-            //                            }
-            //                            btnInvest.onClick.AddListener(() =>
-            //                            {
-            //                                Dispatch(AreaCode.NET, ReqEventType.Extract, item.Value.investId);
-            //                                btnInvest.interactable = false;
-
-            //                            });
-            //                            break;
-            //                    }
-            //                    storeImage.sprite = Resources.Load("UI/investImg/" + item.Value.investId + "小@2x", typeof(Sprite)) as Sprite;
-            //                    btnStore.onClick.AddListener(() =>
-            //                    {
-            //                        setPanelActive(false);
-            //                        //Dispatch(AreaCode.NET,);
-            //                        Dispatch(AreaCode.UI, UIEvent.IVEST_PANEL_ACTIVE, item.Value.investId);
-            //                    });
-
-            //                    //btnStore Dispatch(AreaCode.NET, ReqEventType.invest_req, item.id);
-            //                    //storeNameText.text = item.投资名称;
-            //                    willUnlock = (System.Convert.ToInt16(item.id) + 1).ToString();
-            //                    break;
-            //                }
-            //            }
-
-            //        }
-            //    }
-            //    quest.transform.SetAsLastSibling();
-            //    WillUnLock();
-            //    //m_SR.content.localPosition = Vector2.zero;
         }
 
         void WillUnLock()

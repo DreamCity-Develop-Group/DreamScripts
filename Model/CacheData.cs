@@ -176,8 +176,10 @@ namespace Assets.Scripts.Net
     /// 0-未加入，1-加入商会，2-已经创建商会
     /// </summary>
 	 public int CommerceState;
-
-
+        /// <summary>
+        /// 我的商会邀请码
+        /// </summary>
+    public string CommerceCode;
         /// <summary>
         /// 商会等级
         /// </summary>

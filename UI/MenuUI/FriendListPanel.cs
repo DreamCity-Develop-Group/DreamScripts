@@ -72,12 +72,16 @@ namespace Assets.Scripts.UI.MenuUI
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
                         obj.transform.Find("Name").GetComponent<Text>().text = dicFriendData[i].nick;
-                        //obj.transform.Find("LV").GetComponent<Text>().text = dicFriendData[i].friendId;
+                        obj.transform.Find("LV").GetComponent<Text>().text = dicFriendData[i].grade;
                         //obj.transform.Find("Hand").GetComponent<Image>().sprite=换头像
                         obj.GetComponent<Button>().onClick.AddListener(
                             () =>
                             {
+                                Dispatch(AreaCode.UI,UIEvent.LOADING_ACTIVE, dicFriendData[i]);
+                                setPanelActive(false);
+                                Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
                                 Dispatch(AreaCode.NET,ReqEventType.invest_info, dicFriendData[i].playerId);
+                                
                             }
                         );
                         }

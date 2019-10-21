@@ -53,9 +53,13 @@ namespace Assets.Scripts.UI.MenuUI
             switch (eventCode)
             {
                 case UIEvent.FRIENDMENU_PANEL_ACTIVE:
-                    setPanelActive((bool)message);
+                    bool flag = (bool) message;
+                    setPanelActive(flag);
                     inputSearch.text = "";
-                    clickFriend();
+                    if (flag)
+                    {
+                        clickFriend();
+                    }
                     break;
                 case UIEvent.FRIEND_LIST_PANEL_VIEW:
                     friendData = message as List<UserInfos>;

@@ -112,8 +112,6 @@ namespace Assets.Scripts.UI.MenuUI
                     //JIonScee.SetActive((bool)message);
                     SuccessfulJoin.SetActive((bool)message);              //成功加入 
                     break;
-                case UIEvent.HINT_ACTIVE:
-                     //提示交易码错误
                 default:
                     break;
             }
@@ -237,7 +235,6 @@ namespace Assets.Scripts.UI.MenuUI
      
         }
 
-        //// Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
         /// <summary>
         /// 关闭邀请码错误提示
         /// </summary>
@@ -282,7 +279,7 @@ namespace Assets.Scripts.UI.MenuUI
                 InputField.text = "";
                // ChamberOfCommerceRules.SetActive(true);
             }           
-           // Dispatch(AreaCode.NET, ReqEventType.permission_commerce, InputField.text.ToString());  
+            // Dispatch(AreaCode.NET, ReqEventType.permission_commerce, InputField.text.ToString());  
         }
         /// <summary>
         /// 取消、关闭设置交易码
@@ -368,15 +365,7 @@ namespace Assets.Scripts.UI.MenuUI
        /// </summary>
         private void clickGoPay()
         {
-         //   Dispatch(AreaCode.UI, UIEvent.TOPUP_ACTIVE, true);
-            //测试
-
-            //获取二维码字符串
-            string textForEncoding = "0x8dbd8843d9e9de809c19ed53e0403475c987ab15";
-            //CreatQRcode(textForEncoding,)
-            //Sprite spriteQRcode=GetSprite(textForEncoding);
-            // Dispatch(AreaCode.Net,ReqEventType);
-            Dispatch(AreaCode.UI, UIEvent.QRECODE_PANEL_ACTIVE, MsgTool.CreatQRcode(textForEncoding));
+            Dispatch(AreaCode.UI, UIEvent.QRECODE_PANEL_ACTIVE, MsgTool.CreatQRcode(CacheData.Instance().Address));
         }
         /// <summary>
         /// 关闭去充值面板

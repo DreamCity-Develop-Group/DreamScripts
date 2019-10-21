@@ -43,6 +43,7 @@ namespace Assets.Scripts.UI
             {
                 case UIEvent.SHARKEPOST_PANEL_VIEW:
                     setPanelActive(true);
+                   
                     ShowPost(message as Texture2D);
                     break;
                 default:
@@ -76,8 +77,8 @@ namespace Assets.Scripts.UI
         {
             string language = PlayerPrefs.GetString("language");
             _post1Image.texture = Resources.Load<Texture2D>("UI/menu/" + language + "/" + "Poster1");
-            _post1Image.texture = Resources.Load<Texture2D>("UI/menu/" + language + "/" + "Poster2");
-            _post1Image.texture = Resources.Load<Texture2D>("UI/menu/" + language + "/" + "Poster3");
+            _post2Image.texture = Resources.Load<Texture2D>("UI/menu/" + language + "/" + "Poster2");
+            _post3Image.texture = Resources.Load<Texture2D>("UI/menu/" + language + "/" + "Poster3");
         }
         /// <summary>
         /// 展示海报
@@ -85,7 +86,21 @@ namespace Assets.Scripts.UI
         /// <param name="logo"></param>
         private void ShowPost(Texture2D logo)
         {
-            int num = Random.Range(1, 3);
+            if (CacheData.Instance().CommerceState == 2)
+            {
+                _inviteCode1.text = CacheData.Instance().CommerceCode;
+                _inviteCode2.text = CacheData.Instance().CommerceCode;
+                _inviteCode3.text = CacheData.Instance().CommerceCode;
+
+            }
+            else
+            {
+                _inviteCode1.text = null;
+                _inviteCode2.text = null;
+                _inviteCode3.text = null;
+
+            }
+            int num = Random.Range(1, 4);
             switch (num)
             {
                 case 1:
@@ -97,7 +112,7 @@ namespace Assets.Scripts.UI
                     _qrCode2Image.texture = CreatQRcode(CacheData.QrCode, (int)_qrCode2Image.rectTransform.rect.width, (int)_qrCode2Image.rectTransform.rect.height, logo);
                     break;
                 case 3:
-                    _post3Image.gameObject.SetActive(true);
+                     _post3Image.gameObject.SetActive(true);
                     _qrCode3Image.texture = CreatQRcode(CacheData.QrCode, (int)_qrCode3Image.rectTransform.rect.width, (int)_qrCode3Image.rectTransform.rect.height, logo);
                     break;
             }

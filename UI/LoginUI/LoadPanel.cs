@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.LoginUI
         GameObject gameObjectLoginSelectPanel;
         Button btnRegist;
         Button btnLogin;
-
+      
         private Image headImage;
        // private Image titleImage;
         private Image loginImage;
@@ -67,6 +67,7 @@ namespace Assets.Scripts.UI.LoginUI
         // Start is called before the first frame update
         private void Start()
         {
+           
             gameObjectLoginSelectPanel = transform.Find("LoginSelectPanel").gameObject;
             btnLogin = transform.Find("LoginSelectPanel/BtnLogin").GetComponent<Button>();
             btnRegist = transform.Find("LoginSelectPanel/BtnRegist").GetComponent<Button>();

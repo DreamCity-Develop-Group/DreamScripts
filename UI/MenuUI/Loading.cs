@@ -1,5 +1,7 @@
 using System.Collections;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Language;
+using Assets.Scripts.Model;
 using Assets.Scripts.Scenes;
 using Assets.Scripts.Scenes.Msg;
 using UnityEngine;
@@ -26,6 +28,7 @@ namespace Assets.Scripts.UI.LoginUI
     {
    
         Slider sliderLoading;
+        private Text bottomText;
         private void Awake()
         {
             Bind(UIEvent.LOADING_ACTIVE);
@@ -38,26 +41,31 @@ namespace Assets.Scripts.UI.LoginUI
             {
                 case UIEvent.LOADING_ACTIVE:
                     setPanelActive(true);
-                    StartCoroutine(LoadingHome());
+                    UserInfos others = message as UserInfos;
+                    bottomText.text = LanguageService.Instance.GetStringByKey(others == null ? "返回您的城市" : "前往临近城市", string.Empty);
+                    StartCoroutine(LoadingHome(others));
                     break;
             }
         }
         // Start is called before the first frame update
         private void Start()
         {
+            bottomText = transform.Find("Panel/bottomText").GetComponent<Text>();
             sliderLoading = transform.Find("SliderLoading").GetComponent<Slider>();
             setPanelActive(false);
         }
 
-        IEnumerator LoadingHome()
+        IEnumerator LoadingHome(UserInfos user)
         {
             while (sliderLoading.GetComponent<Slider>().value <1)
             {
-                sliderLoading.GetComponent<Slider>().value += Time.deltaTime;
+                sliderLoading.GetComponent<Slider>().value += Time.deltaTime*0.5f;
                 
                 yield return new WaitForEndOfFrame();
             }
             setPanelActive(false);
+            sliderLoading.GetComponent<Slider>().value = 0;
+            Dispatch(AreaCode.UI, UIEvent.PlayerMenu_Panel,user);
         }
         /// <summary>
         /// /语言版本图片加载

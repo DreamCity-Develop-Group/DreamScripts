@@ -57,6 +57,8 @@ namespace Assets.Scripts.Model
         private string Nick;
 
         private int Level;
+
+        public string invite { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -79,6 +81,7 @@ namespace Assets.Scripts.Model
         /// 
         /// </summary>
         public double usdt { get; set; }
+
 
         public string address { get; set; }
     }

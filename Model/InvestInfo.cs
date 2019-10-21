@@ -29,7 +29,7 @@ namespace Assets.Scripts.Model
         ///// <summary>
         ///// 好友点赞数
         ///// </summary>
-        //public int likeCount { get; set; }
+        public int likeCount { get; set; }
         /// <summary>
         /// 投资项目id
         /// </summary>

@@ -18,6 +18,7 @@ using Assets.Scripts.Framework;
 using System.Collections;
 using System.IO;
 using Assets.Scripts.Language;
+using Assets.Scripts.Net;
 using Assets.Scripts.UI.Msg;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,6 +48,7 @@ namespace Assets.Scripts.UI.MenuUI
                 case UIEvent.QRECODE_PANEL_ACTIVE:
                     image = message as Texture2D;
                     imageQRecode.texture = image;
+                    siteText.text = CacheData.Instance().Address;
                     setPanelActive(true);
                     break;
                 default:

@@ -71,5 +71,22 @@ namespace Assets.Scripts.Net.Request
             socketMsg.Change(LoginInfo.ClientId, "提取请求消息", messageData);
             return socketMsg;
         }
+
+        /// <summary>
+        /// 点赞
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqLikeInfoMsg(object msg)
+        {
+            Dictionary<string, string> t = new Dictionary<string, string>();
+            t.Add("username", PlayerPrefs.GetString("username"));
+            t.Add("token", PlayerPrefs.GetString("token"));
+            t.Add("playerId", PlayerPrefs.GetString("playerId"));
+            t.Add("friendId", msg.ToString());
+            messageData.Change("consumer", SocketEventType.LikeFriend, t);
+            socketMsg.Change(LoginInfo.ClientId, "提取请求消息", messageData);
+            return socketMsg;
+        }
     }
 }

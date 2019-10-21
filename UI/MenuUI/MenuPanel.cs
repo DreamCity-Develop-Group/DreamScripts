@@ -24,7 +24,9 @@ namespace Assets.Scripts.UI.MenuUI
         Button btnTreasure; //资产
         Button btnAdd;      //充值USDT + 号按钮 
         Button btnHome;   //主页
-
+        /// <summary>
+        /// 
+        /// </summary>
         GameObject homePanel;
         /// <summary>
         /// 投资
@@ -80,7 +82,7 @@ namespace Assets.Scripts.UI.MenuUI
         private Button test;
         private void Awake()
         {
-            Bind(UIEvent.MENU_PANEL_VIEW,UIEvent.MENU_UPDATE_VIEW);
+            Bind(UIEvent.MENU_PANEL_VIEW,UIEvent.MENU_UPDATE_VIEW,UIEvent.PlayerMenu_Panel);
             LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
         }
 
@@ -105,6 +107,22 @@ namespace Assets.Scripts.UI.MenuUI
                     gameobjectRed.SetActive(CacheData.Instance().RedState);
                     txtMt.text =CacheData.Instance().Mt.ToString("#0.00");
                     txtUsdt.text = CacheData.Instance().Usdt.ToString("#0.00");
+                    break;
+                case UIEvent.PlayerMenu_Panel:
+                    UserInfos user = message as UserInfos;
+                    if (user != null)
+                    {
+                        homePanel.SetActive(false);
+                        textNickName.text =user.nick;
+                        textLv.text = user.grade;
+                        btnHome.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        textNickName.text = CacheData.Instance().nick;
+                        textLv.text = CacheData.Instance().CommerceLevel.ToString();
+                        homePanel.SetActive(true);
+                    }
                     break;
                 default:
                     break;
@@ -170,7 +188,7 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 btnHome.gameObject.SetActive(false);
                 //TODO展示一个加载页面
-                Dispatch(AreaCode.UI,UIEvent.LOADING_ACTIVE,true);
+                Dispatch(AreaCode.UI,UIEvent.LOADING_ACTIVE,null);
                 homePanel.SetActive(true);
                 //TODO 获取本身数据
             });
@@ -253,6 +271,9 @@ namespace Assets.Scripts.UI.MenuUI
             CacheData.Instance().Mt = menuInfo.account.mt;
             CacheData.Instance().Usdt =menuInfo.account.usdt;
             CacheData.Instance().Address=menuInfo.account.address;
+            CacheData.Instance().CommerceCode = menuInfo.profile.invite;
+            CacheData.Instance().nick = menuInfo.profile.nick;
+            CacheData.Instance().CommerceLevel = menuInfo.level;
             txtMt.text = menuInfo.account.mt.ToString("#0.00");
             txtUsdt.text = menuInfo.account.usdt.ToString("#0.00");
             noticeCount = menuInfo.notices.Count;
@@ -338,15 +359,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void clickAdd()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            //测试
-
-            //获取二维码字符串
-            textForEncoding = "0x8dbd8843d9e9de809c19ed53e0403475c987ab15";
-            //CreatQRcode(textForEncoding,)
-            //Sprite spriteQRcode=GetSprite(textForEncoding);
-            // Dispatch(AreaCode.Net,ReqEventType);
-            
-            Dispatch(AreaCode.UI,UIEvent.QRECODE_PANEL_ACTIVE,MsgTool.CreatQRcode("0x8dbd8843d9e9de809c19ed53e0403475c987ab15"));
+            Dispatch(AreaCode.UI,UIEvent.QRECODE_PANEL_ACTIVE,MsgTool.CreatQRcode(CacheData.Instance().Address));
 
         }
         private void initSource()

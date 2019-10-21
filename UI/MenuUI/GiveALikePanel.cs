@@ -33,7 +33,10 @@ namespace Assets.Scripts.UI
         private Button likeBtn6;                         //点赞一的按钮
         private bool[] randomArray=new bool[6];
         private GameObject[] GvieLikes;
-
+        /// <summary>
+        /// 点赞方id
+        /// </summary>
+        private string friendId;
         private void Awake()
         {
             Bind(UIEvent.THUMBUP_PANEL_ACTVATE);
@@ -48,9 +51,10 @@ namespace Assets.Scripts.UI
                     Dispatch(AreaCode.NET,UIEvent.LOADING_ACTIVE,true);
                     setPanelActive(true);
                     InvestList msg = message  as InvestList;
+                    friendId = msg.playerId;
                     foreach (var item in msg.investList)
                     {
-                        int random = Random.Range(0, 6);
+                        int random = Random.Range(0, 7);
                         if (!randomArray[random])
                         {
                             randomArray[random] = true;
@@ -124,7 +128,7 @@ namespace Assets.Scripts.UI
         private void clickLike0()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET,ReqEventType.GetLike,true);
+            Dispatch(AreaCode.NET,ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功",string.Empty),Color.white);
             GvieLike0.SetActive(false);
         }
@@ -134,7 +138,7 @@ namespace Assets.Scripts.UI
         private void clickLike1()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }
@@ -144,7 +148,7 @@ namespace Assets.Scripts.UI
         private void clickLike2()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }
@@ -154,7 +158,7 @@ namespace Assets.Scripts.UI
         private void clickLike3()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }
@@ -164,7 +168,7 @@ namespace Assets.Scripts.UI
         private void clickLike4()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }
@@ -174,7 +178,7 @@ namespace Assets.Scripts.UI
         private void clickLike5()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }
@@ -184,7 +188,7 @@ namespace Assets.Scripts.UI
         private void clickLike6()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.GetLike, true);
+            Dispatch(AreaCode.NET, ReqEventType.GetLike, friendId);
             promptMsg.Change(LanguageService.Instance.GetStringByKey("点赞成功", string.Empty), Color.white);
             GvieLike0.SetActive(false);
         }

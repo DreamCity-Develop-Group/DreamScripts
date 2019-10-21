@@ -58,7 +58,7 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const string SetExchangePassWord = "expwshop";
         /// <summary>
-        /// 好友点赞
+        /// 点赞
         /// </summary>
         public const string LikeFriend = "likefriend";
         /// <summary>

@@ -310,7 +310,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void clickTopUp()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.UI, UIEvent.QRECODE_PANEL_ACTIVE, MsgTool.CreatQRcode("0x8dbd8843d9e9de809c19ed53e0403475c987ab15"));
+            Dispatch(AreaCode.UI, UIEvent.QRECODE_PANEL_ACTIVE, MsgTool.CreatQRcode(CacheData.Instance().Address));
         }
         /// <summary>
         /// 邀请好友

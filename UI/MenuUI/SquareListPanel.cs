@@ -84,6 +84,15 @@ namespace Assets.Scripts.UI.MenuUI
                                 obj1.transform.Find("Aplied").gameObject.SetActive(true);
                                 Dispatch(AreaCode.NET,ReqEventType.addfriend, friendNick);
                             });
+                            obj.GetComponent<Button>().onClick.AddListener(
+                                () =>
+                                {
+                                    Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t);
+                                    setPanelActive(false);
+                                    Dispatch(AreaCode.UI,UIEvent.FRIENDMENU_PANEL_ACTIVE,false);
+                                    Dispatch(AreaCode.NET, ReqEventType.invest_info, t.playerId);
+                                }
+                            );
                         }
                     }
                     //TODO

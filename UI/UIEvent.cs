@@ -14,6 +14,10 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int LOAD_PANEL_HINDED = int.MinValue;
         /// <summary>
+        /// 他人界面
+        /// </summary>
+        public const int PlayerMenu_Panel = -10;
+        /// <summary>
         /// 更新主場景
         /// </summary>
         public const int Updata_Earnings_Panel=-9;
@@ -26,7 +30,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int MENU_UPDATE_VIEW = -7;
         /// <summary>
-        ///加载中
+        ///加载中到他人界面
         /// </summary>
         public const int LOADING_ACTIVE = -6;
 
@@ -76,7 +80,7 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int GAMEBG = 6;
         /// <summary>
-        /// 好友主界面
+        /// 好友列表界面
         /// </summary>
         public const int FRIENDMENU_PANEL_ACTIVE = 7;
         /// <summary>
