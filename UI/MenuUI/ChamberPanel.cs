@@ -108,6 +108,7 @@ namespace Assets.Scripts.UI.MenuUI
         private Button RequestClose;                     //关闭请求
         //数据信息
         private List<MermberInfo> listMyMember = new List<MermberInfo>();   //我的核心成员列表
+        private int coreNumber;//核心成员数
         private int count;//普通成员数量
       //  private List<ExchangeInfo> listConversion = new List<ExchangeInfo>(); //我的兑换列表
         private GameObject MyMemberInfoPerfab0;              //我的核心成员信息预制体 
@@ -160,11 +161,12 @@ namespace Assets.Scripts.UI.MenuUI
                 case UIEvent.COMMERCE_PANEL_VIEW:
                     CommerceInfo memberdata =message as CommerceInfo;
                     if (memberdata == null) throw new ArgumentNullException(nameof(memberdata));
-                    for(int i= listMyMember.Count;i< memberdata.members.Count;i++)
+                    for(int i= coreNumber; i< memberdata.members.Count;i++)
                     {
                         listMyMember.Add(memberdata.members[i]);
                     }
-                    listMyMember = memberdata.members;
+                    coreNumber = memberdata.members.Count;
+                    //listMyMember = memberdata.members;
                     count = memberdata.num;
                     memberdata = null;
                     UpdataMembers();
@@ -446,6 +448,7 @@ namespace Assets.Scripts.UI.MenuUI
                     obj.transform.Find("Time").GetComponent<Text>().text = listMyMember[i].createTime;
                     obj.SetActive(true);
                 }
+                listMyMember.Clear();
             }
         }
         /// <summary>
