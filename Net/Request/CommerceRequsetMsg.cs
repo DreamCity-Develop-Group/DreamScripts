@@ -55,9 +55,8 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<ReqCommerceInfo> ReqPermissionCommerceMsg(object msg)
         {
-        
-            reqCommerceInfo.Change(null, null, null, null,null, null);
-
+            string pass = MsgTool.MD5Encrypt(msg.ToString());
+            reqCommerceInfo.Change(null, null, null, null,null, pass);
             messageData.Change("consumer/tree", SocketEventType.JoinCommerce, reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "商会请求经营许可消息", messageData);
             return socketMsg;

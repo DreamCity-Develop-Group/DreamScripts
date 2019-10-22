@@ -648,6 +648,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void OnClickTrandeConfindBtn()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
+
             string confirmPass = InputTradeCode.text;
             if (confirmPass.IsNullOrEmpty())
             {
@@ -655,7 +656,7 @@ namespace Assets.Scripts.UI.MenuUI
             }
             else
             {
-                Dispatch(AreaCode.NET, ReqEventType.confirmPass,confirmPass);
+                Dispatch(AreaCode.NET, ReqEventType.permission_commerce,confirmPass);
             }
            
         }

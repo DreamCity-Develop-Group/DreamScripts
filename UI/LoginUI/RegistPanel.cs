@@ -1,4 +1,4 @@
-using Assets.Scripts.Framework;
+﻿using Assets.Scripts.Framework;
 using Assets.Scripts.Language;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net;
@@ -133,9 +133,8 @@ namespace Assets.Scripts.UI.LoginUI
             }
             else
             {
-
                 HintMsg hintMsg = new HintMsg();
-                hintMsg.Change(LanguageService.Instance.GetStringByKey("Э��", String.Empty), Color.white);
+                hintMsg.Change(LanguageService.Instance.GetStringByKey("协议", String.Empty), Color.white);
                 Dispatch(AreaCode.UI,UIEvent.HINT_ACTIVE, hintMsg);
             }  
         }

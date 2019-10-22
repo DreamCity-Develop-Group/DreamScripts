@@ -102,21 +102,25 @@ namespace Assets.Scripts.Net.Handler
         /// <param name="msg"></param>
         private void CommercePermissionRespon(object msg)
         {
+            promptMsg.Change(LanguageService.Instance.GetStringByKey(msg.ToString(),string.Empty),Color.white);
             if (msg.Equals("200"))
             {
                 CacheData.Instance().CommerceState = 2;
+                CacheData.Instance().Usdt -= 10;
+                Dispatch(AreaCode.UI, UIEvent.MENU_UPDATE_VIEW, true);
                 //TODO 创建商会成功，在许可前同步屏蔽停止，取消屏蔽
+                promptMsg.Change(LanguageService.Instance.GetStringByKey("你已成功获得经营许可证", string.Empty), Color.white);
                 //Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
-              
                 Dispatch(AreaCode.UI,UIEvent.CREATCOMMERCE_CHEXCKPASS, true);
-               // Dispatch(AreaCode.UI, UIEvent.ConfirmationPaymentPanel_Active, false);
-             //   Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
+                Dispatch(AreaCode.UI, UIEvent.ConfirmationPaymentPanel_Active, false);
+                Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
             }
-            else
-            {
-              //  Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, msg);
+            Dispatch(AreaCode.UI,UIEvent.HINT_ACTIVE,promptMsg);
+            //else
+            //{
+            //    Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, msg);
 
-            }
+            //}
         }
         /// <summary>
         /// 商会加入

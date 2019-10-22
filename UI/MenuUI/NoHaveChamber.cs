@@ -233,7 +233,7 @@ namespace Assets.Scripts.UI.MenuUI
                 //TODO输入提示
                 IncorrectPrompt.SetActive(true);
             }
-
+            
             Dispatch(AreaCode.NET, ReqEventType.commerce_in, InputChamberCode.text.ToString());
      
         }
@@ -260,7 +260,7 @@ namespace Assets.Scripts.UI.MenuUI
             //{
             //    SettingtradingCode.SetActive(true);
             //}
-           
+
             JIonScee.SetActive(false);
            
         }
@@ -333,10 +333,9 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 //TODO
                 // Dispatch(AreaCode.NET, ReqEventType.recharge, address);
-              
-                    
-             
-               Dispatch(AreaCode.NET,ReqEventType.permission_commerce, null);
+
+
+                TransactionPassword.SetActive(true);
 
             }
 
@@ -354,7 +353,7 @@ namespace Assets.Scripts.UI.MenuUI
             }
             else
             {
-                Dispatch(AreaCode.NET, ReqEventType.confirmPass, TranInput.text.ToString());
+                Dispatch(AreaCode.NET, ReqEventType.permission_commerce, TranInput.text.ToString());
             }
         }
         /// <summary>

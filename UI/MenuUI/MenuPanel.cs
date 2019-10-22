@@ -261,9 +261,9 @@ namespace Assets.Scripts.UI.MenuUI
 
         void clickTest()
         {
-            Dispatch(AreaCode.NET, ReqEventType.invest_info, true);
+            //Dispatch(AreaCode.NET, ReqEventType.invest_info, true);
             //Dispatch(AreaCode.NET, ReqEventType.Extract, 3);
-            //Dispatch(AreaCode.NET, ReqEventType.menu_req, null);
+            Dispatch(AreaCode.NET, ReqEventType.menu_req, null);
         }
         private void InitInfo(MenuInfo menuInfo)
         {
