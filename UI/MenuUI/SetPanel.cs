@@ -44,7 +44,7 @@ namespace Assets.Scripts.UI.MenuUI
         string language;
         private void Awake()
         {
-            Bind(UIEvent.SET_PANEL_ACTIVE);
+            Bind(UIEvent.SET_PANEL_ACTIVE, UIEvent.Security_Updata);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -56,6 +56,16 @@ namespace Assets.Scripts.UI.MenuUI
                     clickMusic();
                     //clickMusic();
                     ///PanelSound.SetActive((bool)message);
+                    break;
+                case UIEvent.Security_Updata:
+                    if (CacheData.Instance().isHasTradePassword)
+                    {
+                        btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ChangeTradePassword");
+                    }
+                    else
+                    {
+                        btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/SetTransactionPassword");
+                    }
                     break;
                 default:
                     break;
@@ -126,14 +136,7 @@ namespace Assets.Scripts.UI.MenuUI
             MusicImg.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Switch1");
             soundTxt = PanelSound.transform.Find("Effect/Text").GetComponent<Text>();
             musicTxt = PanelSound.transform.Find("music/Text").GetComponent<Text>();
-            if (CacheData.Instance().isHasTradePassword)
-            {
-                btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ChangeTradePassword");
-            }
-            else
-            {
-                btnChangeExPW.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/SetTransactionPassword");
-            }
+           
 
         }
         /// <summary>
@@ -173,6 +176,7 @@ namespace Assets.Scripts.UI.MenuUI
             panelSecutiry.SetActive(false);
             PanelSound.SetActive(false);
             SecutiryClik.SetActive(false);
+
             HelpClik.SetActive(true);
             MusicClik.SetActive(false);
         }

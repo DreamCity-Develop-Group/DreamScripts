@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net.Code;
+using Assets.Scripts.Tools;
 using Assets.Scripts.UI.Msg;
 using UnityEngine;
 
@@ -54,17 +55,9 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<ReqCommerceInfo> ReqPermissionCommerceMsg(object msg)
         {
-            if (msg == null || msg.Equals(""))
-            {
-                //TODO提示
-                promptMsg.Change("null", Color.white);
-                return null;
-            }
-            //TODO
-            reqCommerceInfo.Change(null, null, null, null,null, msg.ToString());
-            //t.Add("commerce_name");
-            //t.Add("username", PlayerPrefs.GetString("username"));
-            //t.Add("token",PlayerPrefs.GetString("token"));
+        
+            reqCommerceInfo.Change(null, null, null, null,null, null);
+
             messageData.Change("consumer/tree", SocketEventType.JoinCommerce, reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "商会请求经营许可消息", messageData);
             return socketMsg;
@@ -128,27 +121,7 @@ namespace Assets.Scripts.Net.Request
             socketMsg.Change(LoginInfo.ClientId, "兑换中心信息请求", messageData);
             return socketMsg;
         }
-        /// <summary>
-        /// 交易密码验证请求
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public SocketMsg<ReqCommerceInfo> ReqTradePassWordMsg(object msg)
-        {
-            //Dictionary<string, string> t = msg as Dictionary<string, string>;
-            //t.Add("username", PlayerPrefs.GetString("username"));
-            //t.Add("token",PlayerPrefs.GetString("token"));
-            if (msg.Equals(""))
-            {
-                //TODO提示
-                promptMsg.Change("null", Color.white);
-                return null;
-            }
-            reqCommerceInfo.Change(null, null, null, null, null, msg.ToString());
-            messageData.Change("consumer/tree", SocketEventType.ConfirmPass, reqCommerceInfo);
-            socketMsg.Change(LoginInfo.ClientId, "交易密码验证请求", messageData);
-            return socketMsg;
-        }
+       
 
     }
 }

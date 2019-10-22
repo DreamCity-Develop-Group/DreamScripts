@@ -191,7 +191,7 @@ namespace Assets.Scripts.Net.Request
             if (CacheData.Instance().Mt < CacheData.Instance().ChangExPassWordMt)
             {
                 //promptMsg.Change("你的MT不足", Color.white);
-                //promptMsg.Change(LanguageService.Instance.GetStringByKey("你的MT不足", String.Empty), Color.white);
+                promptMsg.Change(LanguageService.Instance.GetStringByKey("你的MT不足", String.Empty), Color.white);
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
                 return null;
             }

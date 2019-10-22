@@ -353,7 +353,7 @@ namespace Assets.Scripts.Net.Request
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
             t.Add("playerId", PlayerPrefs.GetString("playerId"));
-            t.Add("confirmPass", msg.ToString());
+            t.Add("confirmPass",MsgTool.MD5Encrypt( msg.ToString()));
             messageData.Change("consumer/tree", SocketEventType.ConfirmPass, t);
             socketMsg.Change(LoginInfo.ClientId, "核对密码请求", messageData);
             return socketMsg;

@@ -114,7 +114,7 @@ namespace Assets.Scripts.Net
         {
             //if (_webSocket == null)
             //{
-                address = "ws://"+"156.236.69.200"+":8010/dream/city/topic/"+"none";
+                //address = "ws://"+"156.236.69.200"+":8010/dream/city/topic/"+"none";
                _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)
                 //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);

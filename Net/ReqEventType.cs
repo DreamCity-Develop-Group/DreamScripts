@@ -30,7 +30,7 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const int expw = 8;
         /// <summary>
-        /// 设置交易密码
+        /// 设置交易密码,修改交易密码
         /// </summary>
         public const int expwshop = 9;
         /// <summary>
@@ -106,6 +106,7 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 修改交易密码
         /// </summary>
+        
         public const int change_expwshop=27;
 
         /// <summary>

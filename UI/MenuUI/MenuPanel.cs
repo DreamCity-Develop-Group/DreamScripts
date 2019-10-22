@@ -100,7 +100,9 @@ namespace Assets.Scripts.UI.MenuUI
                         //********更新红点状态******//
                         gameobjectRed.SetActive(CacheData.Instance().RedState);
                         InitInfo(menuInfo);
+                        Dispatch(AreaCode.UI,UIEvent.Security_Updata,true);
                     }
+
                     break;
                 case UIEvent.MENU_UPDATE_VIEW:
                     //********更新红点状态******//
@@ -413,8 +415,14 @@ namespace Assets.Scripts.UI.MenuUI
             switch (CacheData.Instance().CommerceState)
             {
                 case 0:
-                    Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
-                   
+                    if (CacheData.Instance().isHasTradePassword)
+                    {
+                        Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
+                    }
+                    else
+                    {
+                        Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
+                    }
                     break;
                 case 1:
                     Dispatch(AreaCode.UI, UIEvent.CHAMBERCODECRRECT, true);

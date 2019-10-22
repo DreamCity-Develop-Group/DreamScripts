@@ -37,9 +37,9 @@ namespace Assets.Scripts.Net.Handler
                 case ReqEventType.expwshop:
                     expwshopRespon(value.ToString());
                     break;
-                case ReqEventType.change_expwshop:
-                    changeExPwShopRespon(value.ToString());
-                    break;
+                //case ReqEventType.change_expwshop:
+                //    changeExPwShopRespon(value.ToString());
+                //    break;
                 default:
                     break;
             }
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Net.Handler
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
         }
         /// <summary>
-        /// 设置交易密码
+        /// 设置交易密码 ,修改交易密码响应
         /// </summary>
         /// <param name="value"></param>
         private void expwshopRespon(string value)
@@ -71,7 +71,18 @@ namespace Assets.Scripts.Net.Handler
             promptMsg.Change(LanguageService.Instance.GetStringByKey(value, String.Empty), Color.white);
             if (value == "200")
             {
-                promptMsg.Change(LanguageService.Instance.GetStringByKey("set", String.Empty), Color.white);
+                if (CacheData.Instance().isHasTradePassword)
+                {
+                    promptMsg.Change(LanguageService.Instance.GetStringByKey("修改成功", String.Empty), Color.white);
+                    Dispatch(AreaCode.UI, UIEvent.CHANGETRADE_ACTIVE, false);
+                }
+                else
+                {
+                    promptMsg.Change(LanguageService.Instance.GetStringByKey("set", String.Empty), Color.white);
+                    CacheData.Instance().isHasTradePassword = true;
+                    Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, false);
+                }
+               
             }
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
         }
@@ -79,18 +90,18 @@ namespace Assets.Scripts.Net.Handler
         /// 修改交易密码响应
         /// </summary>
         /// <param name="value"></param>
-        private void changeExPwShopRespon(string value)
-        {
-            promptMsg.Change(value, Color.white);
+        //private void changeExPwShopRespon(string value)
+        //{
+        //    promptMsg.Change(value, Color.white);
 
-            if (value == "修改成功")
-            {
-                //CacheData.Instance().Mt -= CacheData.Instance().ChangExPassWordMt;
+        //    if (value == "修改成功")
+        //    {
+        //        //CacheData.Instance().Mt -= CacheData.Instance().ChangExPassWordMt;
 
-                promptMsg.Change(value.ToString(), Color.green);
-            }
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-        }
+        //        promptMsg.Change(value.ToString(), Color.green);
+        //    }
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //}
 
        
         //private void voicesetRespon(object value)

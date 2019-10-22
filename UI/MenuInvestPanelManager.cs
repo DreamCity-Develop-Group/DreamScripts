@@ -166,12 +166,12 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void SceneInvestOnclick(string inType)
         {
-            if (inType == "11")
+            if (inType == "11"|| inType == "21")
             {
                 personGameObject.SetActive(false);
                 componeyGameObject.SetActive(false);
                 exactGameObject.SetActive(true); 
-                exactTax.text = CacheData.Instance().InvestData[inType].quotaTax.ToString();
+                exactTax.text = CacheData.Instance().InvestData[inType].quotaTax.ToString("0.##%"); ;
             }
             else
             {

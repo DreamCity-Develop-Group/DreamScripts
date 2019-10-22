@@ -108,6 +108,9 @@ namespace Assets.Scripts.UI.MenuUI
                     if ((bool)message == true)
                         SettingtradingCode.SetActive(false);
                     break;
+                case UIEvent.CREATCOMMERCE_CHEXCKPASS:
+                    TransactionPassword.SetActive(true);
+                    break;
                 case UIEvent.JOINCHAMBERSUCCESSFUL:
                     //JIonScee.SetActive((bool)message);
                     SuccessfulJoin.SetActive((bool)message);              //成功加入 
@@ -253,10 +256,10 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 ChamberOfCommerceRules.SetActive(true);
             }
-            else
-            {
-                SettingtradingCode.SetActive(true);
-            }
+            //else
+            //{
+            //    SettingtradingCode.SetActive(true);
+            //}
            
             JIonScee.SetActive(false);
            
@@ -330,8 +333,10 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 //TODO
                 // Dispatch(AreaCode.NET, ReqEventType.recharge, address);
-                TransactionPassword.SetActive(true);
-               Dispatch(AreaCode.NET,ReqEventType.permission_commerce, InputField.text.ToString());
+              
+                    
+             
+               Dispatch(AreaCode.NET,ReqEventType.permission_commerce, null);
 
             }
 

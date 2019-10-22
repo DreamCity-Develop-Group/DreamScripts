@@ -14,6 +14,14 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int LOAD_PANEL_HINDED = int.MinValue;
         /// <summary>
+        /// 商会交易密码验证
+        /// </summary>
+        public const int CREATCOMMERCE_CHEXCKPASS = -12;
+        /// <summary>
+        /// 初始化安全界面
+        /// </summary>
+        public const int Security_Updata = -11;
+        /// <summary>
         /// 他人界面
         /// </summary>
         public const int PlayerMenu_Panel = -10;
@@ -258,7 +266,9 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int WillUNLOCK_VIEW = 49;
 
-
+        /// <summary>
+        /// 商会初创密码确定
+        /// </summary>
 
         public const int ConfirmationPaymentPanel_Active = 50;
         /// <summary>

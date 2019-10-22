@@ -105,10 +105,12 @@ namespace Assets.Scripts.Net.Handler
             if (msg.Equals("200"))
             {
                 CacheData.Instance().CommerceState = 2;
-                //TODO 加入商会成功，在许可前同步屏蔽停止，取消屏蔽
+                //TODO 创建商会成功，在许可前同步屏蔽停止，取消屏蔽
                 //Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
-                Dispatch(AreaCode.UI, UIEvent.ConfirmationPaymentPanel_Active, false);
-                Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
+              
+                Dispatch(AreaCode.UI,UIEvent.CREATCOMMERCE_CHEXCKPASS, true);
+               // Dispatch(AreaCode.UI, UIEvent.ConfirmationPaymentPanel_Active, false);
+             //   Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
             }
             else
             {

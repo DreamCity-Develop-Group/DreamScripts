@@ -173,6 +173,7 @@ namespace Assets.Scripts.Net
                         Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, true);
                         _wabData.SendMsg(socketMsg);
                         break;
+                
                     //case ReqEventType.voiceset:
                     //    //音效设置
                     //    socketMsg = setRequestMsg.ReqVoiceSetMsg(message);

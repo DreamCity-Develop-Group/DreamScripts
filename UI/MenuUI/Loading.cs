@@ -59,7 +59,7 @@ namespace Assets.Scripts.UI.LoginUI
         {
             while (sliderLoading.GetComponent<Slider>().value <1)
             {
-                sliderLoading.GetComponent<Slider>().value += Time.deltaTime*0.5f;
+                sliderLoading.GetComponent<Slider>().value += Time.deltaTime*0.1f;
                 
                 yield return new WaitForEndOfFrame();
             }
