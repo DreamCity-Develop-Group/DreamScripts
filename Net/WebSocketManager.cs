@@ -768,7 +768,7 @@ namespace Assets.Scripts.Net
                     break;
                 case SocketEventType.SetExchangePassWord:
                     
-                    setHandler.OnReceive(ReqEventType.expw, msg.data.code);
+                    setHandler.OnReceive(ReqEventType.expwshop, msg.data.code);
                     break;
                 case SocketEventType.SendMt:
                     commerceHander.OnReceive(ReqEventType.commerce_sendmt, dicRegLogRespon);
