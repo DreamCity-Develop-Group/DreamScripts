@@ -131,6 +131,9 @@ namespace Assets.Scripts.UI.LoginUI
         {
             setPanelActive(false);
             Dispatch(AreaCode.UI, UIEvent.REG_ACTIVE, true);
+            if(PlayerPrefs.HasKey("token")){
+                PlayerPrefs.DeleteKey("token");
+            }
             Dispatch(AreaCode.NET, ReqEventType.init, null);
         }
 

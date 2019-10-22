@@ -269,9 +269,9 @@ namespace Assets.Scripts.Net
                 }
             }
             //todo 建立一个响应字典
-            if(info.data.type== SocketEventType.SquareFriends || info.data.type == SocketEventType.FriendList || info.data.type == SocketEventType.ApplyList)
+            if(info.data.type== SocketEventType.SquareFriends || info.data.type == SocketEventType.FriendList || info.data.type == SocketEventType.ApplyList||info.data.type==SocketEventType.SearchFriend)
             {
-                SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg.ToString());
+                SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg);
                 //TODO 过滤过时消息
                 SquareQueue.Enqueue(squareinfo);
             

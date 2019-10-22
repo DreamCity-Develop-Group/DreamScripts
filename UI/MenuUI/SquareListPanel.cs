@@ -68,6 +68,7 @@ namespace Assets.Scripts.UI.MenuUI
                         GameObject obj = null;
                         foreach (var t in squareData)
                         {
+                            if (t.friendId == PlayerPrefs.GetString("playerId")) break;
                             if(CreateCount%2==0)
                             {
                                 obj = CreatePreObj(PersonalInformationBox0, ListBox);
