@@ -235,6 +235,7 @@ namespace Assets.Scripts.UI
                     else
                     {
                         wilOpen.SetActive(true);
+                        wilOpen.GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("敬请期待", string.Empty);
                         btnInvest.gameObject.SetActive(false);
                     }
                     btnStore.onClick.AddListener(() =>

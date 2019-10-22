@@ -29,6 +29,7 @@ namespace Assets.Scripts.UI.LoginUI
    
         Slider sliderLoading;
         private Text bottomText;
+        private float speed = 1.0f;
         private void Awake()
         {
             Bind(UIEvent.LOADING_ACTIVE);
@@ -43,6 +44,7 @@ namespace Assets.Scripts.UI.LoginUI
                     setPanelActive(true);
                     UserInfos others = message as UserInfos;
                     bottomText.text = LanguageService.Instance.GetStringByKey(others == null ? "返回您的城市" : "前往临近城市", string.Empty);
+                    speed = others == null ? 2.0f : 1.0f;
                     StartCoroutine(LoadingHome(others));
                     break;
             }
@@ -59,7 +61,7 @@ namespace Assets.Scripts.UI.LoginUI
         {
             while (sliderLoading.GetComponent<Slider>().value <1)
             {
-                sliderLoading.GetComponent<Slider>().value += Time.deltaTime*0.1f;
+                sliderLoading.GetComponent<Slider>().value += Time.deltaTime*0.3f*speed;
                 
                 yield return new WaitForEndOfFrame();
             }
