@@ -14,6 +14,10 @@ namespace Assets.Scripts.UI
         /// </summary>
         public const int LOAD_PANEL_HINDED = int.MinValue;
         /// <summary>
+        /// 搜索
+        /// </summary>
+        public const int SEARCH_PANEL_VIEW = -13;
+        /// <summary>
         /// 商会交易密码验证
         /// </summary>
         public const int CREATCOMMERCE_CHEXCKPASS = -12;

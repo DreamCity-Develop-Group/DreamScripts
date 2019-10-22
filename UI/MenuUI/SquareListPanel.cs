@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI.MenuUI
     {
         private void Awake()
         {
-            Bind(UIEvent.SQUARE_LIST_PANEL_ACTIVE, UIEvent.SQUARE_LIST_PANEL_VIEW);
+            Bind(UIEvent.SQUARE_LIST_PANEL_ACTIVE, UIEvent.SQUARE_LIST_PANEL_VIEW, UIEvent.SEARCH_PANEL_VIEW);
         }
         /// <summary>
         /// 广场用户数据
@@ -108,6 +108,52 @@ namespace Assets.Scripts.UI.MenuUI
                         }
                     }
                     //TODO
+                    break;
+                case UIEvent.SEARCH_PANEL_VIEW:
+                    UserInfos t1= message as UserInfos;
+
+                    for (int i = 0; i < list_InformationBox.Count; i++)
+                    {
+                        RePreObj(list_InformationBox[i]);
+                    }
+                    list_InformationBox.Clear();
+                    GameObject obj2 = null;
+                    if (t1.friendId == PlayerPrefs.GetString("playerId")) break;
+                    if (CreateCount % 2 == 0)
+                    {
+                        obj2 = CreatePreObj(PersonalInformationBox0, ListBox);
+                    }
+                    else
+                    {
+                        obj2 = CreatePreObj(PersonalInformationBox1, ListBox);
+                    }
+                    obj2.transform.SetParent(ListBox);
+                    obj2.SetActive(true);
+                    list_InformationBox.Add(obj2);
+                    //obj里可以查找显示信息的物体，然后在赋值
+                    string friendNick1 = t1.nick;
+                    obj2.transform.Find("Name").GetComponent<Text>().text = t1.nick;
+                    obj2.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t1.grade) ? "Lv0" : "Lv" + t1.grade;
+                    obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                    var obj3 = obj2;
+                    obj2.transform.Find("Add").GetComponent<Button>().onClick.AddListener(() =>
+                    {
+
+                        obj2.transform.Find("Add").gameObject.SetActive(false);
+                        obj2.transform.Find("Aplied").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                        obj2.transform.Find("Aplied").gameObject.SetActive(true);
+                        Dispatch(AreaCode.NET, ReqEventType.addfriend, friendNick1);
+                    });
+                    obj2.GetComponent<Button>().onClick.AddListener(
+                        () =>
+                        {
+                            Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t1);
+                            setPanelActive(false);
+                            Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
+                            Dispatch(AreaCode.NET, ReqEventType.invest_info, t1.playerId);
+                            ConCamera.IsActivateTouch = true;
+                        }
+                    );
                     break;
                 default:
                     break;

@@ -89,10 +89,23 @@ namespace Assets.Scripts.Net.Handler
             }
             Dispatch(AreaCode.UI,UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData);
         }
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        /// <param name="value"></param>
         private void searchfriendRespon(object value)
         {
+            SquareUser square = value as SquareUser;
             //todo 
-            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData);
+            if (square.list.Count == 1)
+            {
+                Dispatch(AreaCode.UI, UIEvent.SEARCH_PANEL_VIEW, square.list[0]);
+            }
+            else
+            {
+                Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, square);
+            }
+           
         }
         private void addfriendRespon()
         {

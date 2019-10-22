@@ -684,6 +684,10 @@ namespace Assets.Scripts.Net
                     SquareUser friendUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(ReqEventType.listfriend, friendUser);
                     break;
+                case SocketEventType.SearchFriend:
+                    SquareUser searchUser = msg.data.data as SquareUser;
+                    friendHandler.OnReceive(ReqEventType.searchfriend, searchUser);
+                    break;
                 case SocketEventType.NextGround:
                     break;
                 default:
