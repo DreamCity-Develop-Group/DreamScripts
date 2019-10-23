@@ -56,8 +56,8 @@ namespace Assets.Scripts.Net
 
         private CacheData()
         {
-            CommonSpriteAtlas = Resources.Load<SpriteAtlas>("SpriteAltas/CommonAltas");
-           
+            //CommonSpriteAtlas = Resources.Load<SpriteAtlas>("SpriteAltas/CommonAltas");
+            logo = Resources.Load<Texture2D>("");
             //switch (PlayerPrefs.GetString("language"))
             //{
             //    case "Chinese":
@@ -115,6 +115,7 @@ namespace Assets.Scripts.Net
                 return storeInfoDic;
             }
         }
+        public Texture2D logo;
         /// <summary>
         /// 公共精灵
         /// </summary>
@@ -126,7 +127,7 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 下载地址
         /// </summary>
-        public const string QrCode = "www.baidui.com";
+        public const string QrCode = "http://156.236.69.200/app/download/";
     /// <summary>
     /// 商会备货金定额
     /// </summary>

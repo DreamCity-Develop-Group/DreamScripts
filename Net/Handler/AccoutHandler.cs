@@ -202,6 +202,17 @@ namespace Assets.Scripts.Net.Handler
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("600", String.Empty), Color.white);
                 CacheData.Instance().Usdt+= (double)msg.data["money"];
                 Dispatch(AreaCode.UI, UIEvent.MENU_UPDATE_VIEW, true);
+                return true;
+            }
+            else if (msg.data["code"].ToString() == "209")
+            {
+                Dispatch(AreaCode.UI,UIEvent.EXECHANGE_PANEL_ACTIVE,"209");
+                return false;
+            }
+            else if (msg.data["code"].ToString() == "210")
+            {
+                Dispatch(AreaCode.UI, UIEvent.EXECHANGE_PANEL_ACTIVE, "210");
+                return false;
             }
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return false;

@@ -38,7 +38,24 @@ public class ExchangeRequestPanel : UIBase
         {
             case UIEvent.EXECHANGE_PANEL_ACTIVE:
                 setPanelActive(true);
-                _myText.text = message.ToString();
+                string codeMsg = message.ToString();
+                _myText.text = LanguageService.Instance.GetStringByKey(codeMsg, string.Empty);
+                if (codeMsg == "209")
+                {
+                    InitSource("/ToChange");
+                    btnExchange.onClick.AddListener(() =>
+                    {
+                        Dispatch(AreaCode.UI, UIEvent.EXECHANGECENTER_PANEL_ACTIVE, true);
+                    });
+                }
+                else if (codeMsg == "210")
+                {
+                    InitSource("/ToChange");
+                    btnExchange.onClick.AddListener(() =>
+                    {
+                        Dispatch(AreaCode.UI, UIEvent.EXECHANGECENTER_PANEL_ACTIVE, true);
+                    });
+                }
                 break;
             default:
                 break;
@@ -55,17 +72,14 @@ public class ExchangeRequestPanel : UIBase
         {
             setPanelActive(false);
         });
-        btnExchange.onClick.AddListener(() =>
-        {
-            Dispatch(AreaCode.UI,UIEvent.EXECHANGECENTER_PANEL_ACTIVE,true);
-        });
+       
         setPanelActive(false);
     }
 
-    private void InitSource()
+    private void InitSource(string name)
     {
         string language = PlayerPrefs.GetString("language");
 
-        btnExchange.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ToChange");
+        btnExchange.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + name);
     }
 }
