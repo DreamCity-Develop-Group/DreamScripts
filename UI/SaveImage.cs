@@ -1,3 +1,13 @@
+// /************************************************************
+// *                                                           *
+// *        zhupeng                             *
+// *                                                           *
+// *   Created 2019 by inode Games                         *
+// *                                                           *
+// *   bitbendergames@gmail.com                                *
+// *                                                           *
+// ************************************************************/
+
 using System.Collections;
 using System.IO;
 using Assets.Scripts.Framework;
@@ -126,7 +136,6 @@ namespace Assets.Scripts.UI
             {
                 return test.Call<bool>("scanFile",path, "保存成功");
             }
-            Debug.Log(path);
 #endif
         }
 //#if UNITY_ANDROID

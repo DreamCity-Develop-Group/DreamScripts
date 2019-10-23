@@ -28,7 +28,6 @@ namespace Assets.Scripts.Model
       
         public int startRow { get; set; }
 
-      
         /// <summary>
         /// 
         /// </summary>
@@ -50,9 +49,10 @@ namespace Assets.Scripts.Model
         /// </summary>
         public string nick { get; set; }
         /// <summary>
-        /// 是否好友
+        /// 是否好友 -1：未申请；0：已经申请；1：是好友
+        /// -1: not applied for; 0: applied for; 1: is a friend
         /// </summary>
-        public bool agree { get; set; }
+        public int agree { get; set; }
         /// <summary>
         /// 本身id
         /// </summary>

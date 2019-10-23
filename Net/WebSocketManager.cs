@@ -402,6 +402,14 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
+                    case ReqEventType.listfriend:
+                        socketMsg = friendRequestMsg.ReqFriendList(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
+                        _wabData.SendMsg(socketMsg);
+                        break;
                     case ReqEventType.exit:
                         socketMsg = accountRequestMsg.ReqExitMsg(null);
                         if (socketMsg == null)
@@ -538,15 +546,16 @@ namespace Assets.Scripts.Net
             {
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("与服务器断开连接", string.Empty),Color.white);
                 Debug.LogError("网络断开");
-                SceneMsg msg = new SceneMsg("login",
-                    delegate ()
-                    {
-                        Debug.Log("场景加载完成");
-                        Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
-                    });
+                //SceneMsg msg = new SceneMsg("login",
+                //    delegate ()
+                //    {
+                //        Debug.Log("场景加载完成");
+                //        Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
+                //    });
                 WebData.isLogin = false;
-                Dispatch(AreaCode.SCENE, SceneEvent.MENU_PLAY_SCENE, msg);
-                StopAllCoroutines();
+               //Dispatch(AreaCode.SCENE, SceneEvent.MENU_PLAY_SCENE, msg);
+                StopCoroutine(ReConnect());
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
                 WebData.Instance().RecTimes = 0;
             }
 

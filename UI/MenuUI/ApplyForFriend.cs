@@ -41,11 +41,8 @@ namespace Assets.Scripts.UI.MenuUI
         private GameObject PersonalInformationBox1;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
-        Dictionary<string, string> t = new Dictionary<string, string>()
-        {
-            ["nick"] = "",
-            ["agree"] = ""
-        };
+        Dictionary<string, string> t = new Dictionary<string, string>();
+        
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
@@ -80,27 +77,27 @@ namespace Assets.Scripts.UI.MenuUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
-                            string nick = dicSquareData[i].nick;
+                            string nick = dicSquareData[i].friendId;
                             obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].nick;
-                            obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].grade;
+                            obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(dicSquareData[i].grade)?"Lv0":"Lv"+dicSquareData[i].grade;
                             //obj.transform.Find("Hand").GetComponent<Image>().sprite = 
-                            obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener(() =>
+                            obj.transform.Find("Yes").GetComponent<Button>().onClick.AddListener(() =>
                             {
                                 Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-                                t["nick"] = nick;
-                                t["agree"] = "agreed";
+                                t["friendId"] = nick;
+                                t["agree"] = "agree";
                                 Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
-
+                                t.Clear();
                                 RePreObj(obj);
 
                             });
-                            obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener(() =>
+                            obj.transform.Find("No").GetComponent<Button>().onClick.AddListener(() =>
                             {
                                 Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-                                t["nick"] = nick;
+                                t["friendId"] = nick;
                                 t["agree"] = "disagreed";
                                 Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
-
+                                t.Clear();
                                 RePreObj(obj);
                             });
                         }

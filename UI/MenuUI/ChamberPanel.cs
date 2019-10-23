@@ -135,6 +135,7 @@ namespace Assets.Scripts.UI.MenuUI
         private string ConversionRateText;
         private ScrollRect _exchangeRect;
         private Transform _exchangeContent;
+       
         private void Awake()
         {
             Bind(UIEvent.COMMERCE_PANEL_ACTIVE);
@@ -399,6 +400,12 @@ namespace Assets.Scripts.UI.MenuUI
             Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, false);
             setPanelActive(false);
             ConCamera.IsActivateTouch = true;
+			//todo?
+            for (int i = 0; i < listMyMembers.Count; i++)
+            {
+                RePreObj(listMyMembers[i]);
+            }
+            listMyMembers.Clear();
         }
         /// <summary>
         /// 点击企业商会按钮
@@ -411,6 +418,7 @@ namespace Assets.Scripts.UI.MenuUI
             MyEnterpriseInfo.SetActive(false);
             MyEnterpriseClick.SetActive(false);
             ExchangeCenter.gameObject.SetActive(true);
+
         }
         /// <summary>
         /// 点击我的商会按钮
@@ -460,6 +468,12 @@ namespace Assets.Scripts.UI.MenuUI
             Dispatch(AreaCode.NET,ReqEventType.ExchangeCenter,null);
 
             ExchangeCenterBG.SetActive(true);
+			//todo?
+            for (int i = 0; i < listMyMembers.Count; i++)
+            {
+                RePreObj(listMyMembers[i]);
+            }
+            listMyMembers.Clear();
         }
 
         void UpdateExchangeList(List<ExchangeInfo> listConversion)
@@ -787,6 +801,7 @@ namespace Assets.Scripts.UI.MenuUI
             SuccessfullySet.SetActive(false);
         }
         private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //对象池
+        private List<GameObject> listMyMembers = new List<GameObject>();
         private Transform TempTrans;
         /// <summary>
         /// 创建预制体

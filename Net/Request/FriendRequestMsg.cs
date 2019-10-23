@@ -36,7 +36,7 @@ namespace Assets.Scripts.Net.Request
             // ApplyInfo.applyList.Add(applyUserName);
             Dictionary<string, string>t = new Dictionary<string, string>
             {
-                ["nick"] = applyUserName,
+                ["friendId"] = applyUserName,
                 ["username"] = PlayerPrefs.GetString("username"),
                 ["token"] = PlayerPrefs.GetString("token")
                 //["token"] = CacheData.Instance().Token
@@ -173,6 +173,23 @@ namespace Assets.Scripts.Net.Request
             t.Add("friendId",msg.ToString());
             messageData.Change("consumer/player/friend", SocketEventType.ApplyList, t);
             socketMsg.Change(LoginInfo.ClientId, "申请好友列表", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// 好友列表
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqFriendList(object msg)
+        {
+            Dictionary<string, string> t = new Dictionary<string, string>
+            {
+                ["username"] = PlayerPrefs.GetString("username"),
+                ["token"] = PlayerPrefs.GetString("token"),
+            };
+            t.Add("playerId", PlayerPrefs.GetString("playerId"));
+            messageData.Change("consumer/player/friend", SocketEventType.FriendList, t);
+            socketMsg.Change(LoginInfo.ClientId, "好友列表", messageData);
             return socketMsg;
         }
     }

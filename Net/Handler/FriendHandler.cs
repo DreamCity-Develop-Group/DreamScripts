@@ -72,7 +72,7 @@ namespace Assets.Scripts.Net.Handler
                 Debug.LogError("dicSquareFriend is null");
                 return;
             }
-            Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW, _squareData.list);
+            Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW, _squareData);
 
         }
 
@@ -82,12 +82,20 @@ namespace Assets.Scripts.Net.Handler
         /// <param name="value"></param>
         private void listfriendRespon()
         {
+            if (_friendData == null)
+            {
+                return;
+            }
+            if (_friendData.list == null)
+            {
+                return;
+            }
             if (_friendData.list.Count < 1)
             {
                 Debug.LogError("dicFriendData is null");
                 return;
             }
-            Dispatch(AreaCode.UI,UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData);
+            Dispatch(AreaCode.UI,UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData.list);
         }
         /// <summary>
         /// 搜索
@@ -97,7 +105,12 @@ namespace Assets.Scripts.Net.Handler
         {
             SquareUser square = value as SquareUser;
             //todo 
-            if (square.list.Count == 1)
+            if (square.list== null)
+            {
+                Dispatch(AreaCode.UI, UIEvent.SEARCH_PANEL_VIEW, null);
+                return;
+            }
+            else if (square.list.Count == 1)
             {
                 Dispatch(AreaCode.UI, UIEvent.SEARCH_PANEL_VIEW, square.list[0]);
             }

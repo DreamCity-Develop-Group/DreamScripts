@@ -79,7 +79,7 @@ namespace Assets.Scripts.UI.MenuUI
         CommerceInfo commerceInfo = new CommerceInfo();
         private void Awake()
         {
-            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW,UIEvent.HINT_ACTIVE,UIEvent.CHAMBERTRANSACTION,UIEvent.CHAMBERCODECRRECT,UIEvent.ConfirmationPaymentPanel_Active);
+            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW,UIEvent.HINT_ACTIVE,UIEvent.CHAMBERTRANSACTION,UIEvent.CHAMBERCODECRRECT,UIEvent.ConfirmationPaymentPanel_Active,UIEvent.CREATCOMMERCE_CHEXCKPASS);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -109,7 +109,7 @@ namespace Assets.Scripts.UI.MenuUI
                         SettingtradingCode.SetActive(false);
                     break;
                 case UIEvent.CREATCOMMERCE_CHEXCKPASS:
-                    TransactionPassword.SetActive(true);
+                    TransactionPassword.SetActive(false);
                     break;
                 case UIEvent.JOINCHAMBERSUCCESSFUL:
                     //JIonScee.SetActive((bool)message);
@@ -179,6 +179,11 @@ namespace Assets.Scripts.UI.MenuUI
             CloseError.onClick.AddListener(CloseErrorTrand);
             ErrorGood.onClick.AddListener(CloseErrorTrand);
             ManyLanguages();
+            HiddenPanel();
+            setPanelActive(false);
+        }
+        private void HiddenPanel()
+        {
             ErrorMessage.SetActive(false);
             IncorrectPrompt.SetActive(false);
             JIonScee.SetActive(false);
@@ -189,7 +194,6 @@ namespace Assets.Scripts.UI.MenuUI
             SuccessfulJoin.SetActive(false);
             TransactionPassword.SetActive(false);
             JionChamber.SetActive(false);
-            setPanelActive(false);
         }
 
         /// <summary>
@@ -318,6 +322,9 @@ namespace Assets.Scripts.UI.MenuUI
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
             ConfirmationPaymentPanel.SetActive(false);
+            HiddenPanel();
+            setPanelActive(false);
+            ConCamera.IsActivateTouch = true;
         }
         /// <summary>
         /// 确认支付
@@ -363,6 +370,9 @@ namespace Assets.Scripts.UI.MenuUI
         {
             TransactionPassword.SetActive(false);
             TranInput.text = "";
+            HiddenPanel();
+            setPanelActive(false);
+            ConCamera.IsActivateTouch = true;
         }
        /// <summary>
        /// 去充值
@@ -370,6 +380,8 @@ namespace Assets.Scripts.UI.MenuUI
         private void clickGoPay()
         {
             Dispatch(AreaCode.UI, UIEvent.QRECODE_PANEL_ACTIVE, MsgTool.CreatQRcode(CacheData.Instance().Address));
+            setPanelActive(false);
+            ConCamera.IsActivateTouch = true;
         }
         /// <summary>
         /// 关闭去充值面板
@@ -378,6 +390,7 @@ namespace Assets.Scripts.UI.MenuUI
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
             InsufficientFunds.SetActive(false);
+            setPanelActive(false);
         }
     }
 }

@@ -61,7 +61,14 @@ namespace Assets.Scripts.UI.MenuUI
               
                     break;
                 case UIEvent.FRIEND_LIST_PANEL_VIEW:
-                
+                   
+                        foreach (var t in list_InformationBox)
+                        {
+                            RePreObj(t);
+                        }
+
+                        list_InformationBox.Clear();
+                    
                     dicFriendData = message as List< UserInfos>;
                     if (dicFriendData != null && dicFriendData.Count > 0)
                     {
@@ -82,14 +89,15 @@ namespace Assets.Scripts.UI.MenuUI
                             //obj里可以查找显示信息的物体，然后在赋值
                         obj.transform.Find("Name").GetComponent<Text>().text = dicFriendData[i].nick;
                         obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(dicFriendData[i].grade)?"Lv0":"Lv"+ dicFriendData[i].grade;
+                            int j = i;
                         //obj.transform.Find("Hand").GetComponent<Image>().sprite=换头像
                         obj.GetComponent<Button>().onClick.AddListener(
                             () =>
                             {
-                                Dispatch(AreaCode.UI,UIEvent.LOADING_ACTIVE, dicFriendData[i]);
+                                Dispatch(AreaCode.UI,UIEvent.LOADING_ACTIVE, dicFriendData[j]);
                                 setPanelActive(false);
                                 Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
-                                Dispatch(AreaCode.NET,ReqEventType.invest_info, dicFriendData[i].playerId);
+                                Dispatch(AreaCode.NET,ReqEventType.invest_info, dicFriendData[j].playerId);
                                 ConCamera.IsActivateTouch = true;
                                 
                             }

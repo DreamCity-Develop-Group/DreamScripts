@@ -36,6 +36,8 @@ namespace Assets.Scripts.UI.MenuUI
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
         List<UserInfos> squareData;
+
+        SquareUser squareuser;
         private GameObject PersonalInformationBox1;           //列表信息框预制体1
         private GameObject PersonalInformationBox0;           //列表信息框预制体0  
         private Transform ListBox;                           //列表框
@@ -43,7 +45,7 @@ namespace Assets.Scripts.UI.MenuUI
         private Button InABatchBtn;                          //换一批按钮
         private string language;
         private int CreateCount = 0;                        //创建个数
-
+        private int pageNum=0;
 
 
         protected internal override void Execute(int eventCode, object message)
@@ -59,16 +61,26 @@ namespace Assets.Scripts.UI.MenuUI
                             RePreObj(list_InformationBox[i]);
                         }
                         list_InformationBox.Clear();
+                        pageNum = 0;
                     }
                     break;
                 case UIEvent.SQUARE_LIST_PANEL_VIEW:
-                    squareData = message as  List<UserInfos>;
+                    squareuser = message as SquareUser;
+                    if (squareuser == null)
+                    {
+                        return;
+                    }
+                    if (pageNum>=squareuser.pageNum)
+                    {
+                        return;
+                    }
+                    squareData = squareuser.list;
                     if (squareData != null && squareData.Count > 0)
                     {
                         GameObject obj = null;
                         foreach (var t in squareData)
                         {
-                            if (t.friendId == PlayerPrefs.GetString("playerId")) break;
+                            if (t.playerId == PlayerPrefs.GetString("playerId")) break;
                             if(CreateCount%2==0)
                             {
                                 obj = CreatePreObj(PersonalInformationBox0, ListBox);
@@ -82,14 +94,29 @@ namespace Assets.Scripts.UI.MenuUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
-                            string friendNick= t.nick;
+                            string friendNick= t.playerId;
                             obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
                             obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t.grade) ? "Lv0" : "Lv" + t.grade;
-                            obj.transform.Find("Add").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
-                            var obj1 = obj;
-                            obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(()=>
+                            switch (t.agree)
                             {
-
+                                case -1:
+                                    obj.transform.Find("Add").GetComponent<Button>().interactable = true;
+                                    obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                                    break;
+                                case 0:
+                                    obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                                    obj.transform.Find("Add").GetComponent<Button>().interactable = false;
+                                    break;
+                                case 1:
+                                    obj.transform.Find("Add").gameObject.SetActive(false);
+                                    break;
+                            }
+                          
+                            var obj1 = obj;
+                            Button objBtn = obj.transform.Find("Add").GetComponent<Button>();
+                            objBtn.onClick.RemoveAllListeners();
+                            objBtn.onClick.AddListener(() =>
+                            {
                                 obj1.transform.Find("Add").gameObject.SetActive(false);
                                 obj1.transform.Find("Aplied").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
                                 obj1.transform.Find("Aplied").gameObject.SetActive(true);
@@ -107,9 +134,16 @@ namespace Assets.Scripts.UI.MenuUI
                             );
                         }
                     }
+                    pageNum = squareuser.pageNum;
                     //TODO
                     break;
                 case UIEvent.SEARCH_PANEL_VIEW:
+
+                    if (message == null)
+                    {
+                        list_InformationBox.Clear();
+                        break;
+                    }
                     UserInfos t1= message as UserInfos;
 
                     for (int i = 0; i < list_InformationBox.Count; i++)
@@ -131,12 +165,29 @@ namespace Assets.Scripts.UI.MenuUI
                     obj2.SetActive(true);
                     list_InformationBox.Add(obj2);
                     //obj里可以查找显示信息的物体，然后在赋值
-                    string friendNick1 = t1.nick;
+                    string friendNick1 = t1.playerId;
                     obj2.transform.Find("Name").GetComponent<Text>().text = t1.nick;
                     obj2.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t1.grade) ? "Lv0" : "Lv" + t1.grade;
-                    obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                    switch (t1.agree)
+                    {
+                        case -1:
+                            obj2.transform.Find("Add").GetComponent<Button>().interactable = true;
+                            obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                            break;
+                        case 0:
+                            obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                            obj2.transform.Find("Add").GetComponent<Button>().interactable=false;
+                            break;
+                        case 1:
+                            obj2.transform.Find("Add").gameObject.SetActive(false);
+                            break;
+                    }
+                    //obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
                     var obj3 = obj2;
-                    obj2.transform.Find("Add").GetComponent<Button>().onClick.AddListener(() =>
+
+                    Button obj2Btn = obj2.transform.Find("Add").GetComponent<Button>();
+                    obj2Btn.onClick.RemoveAllListeners();
+                    obj2Btn.onClick.AddListener(() =>
                     {
 
                         obj2.transform.Find("Add").gameObject.SetActive(false);

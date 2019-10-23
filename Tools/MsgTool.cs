@@ -154,13 +154,13 @@ namespace Assets.Scripts.Tools
             Texture2D encode = new Texture2D(100, 100, TextureFormat.RGBA32, false);
             var colors = MsgTool.Encode(textForEncoding, encode.width, encode.height);
             encode.SetPixels32(colors);
-            //if (logo != null)
-            //{
-            //    int x = (encode.width-logo.width) / 2;
-            //    int y = (encode.height-logo.height) / 2;
-            //    Color32[] colorlogo = logo.GetPixels32();
-            //    encode.SetPixels32(x,y,logo.width,logo.height,colorlogo);
-            //}
+            if (logo != null)
+            {
+                int x = (encode.width - logo.width) / 2;
+                int y = (encode.height - logo.height) / 2;
+                Color32[] colorlogo = logo.GetPixels32();
+                encode.SetPixels32(x, y, logo.width, logo.height, colorlogo);
+            }
             encode.Apply();
             return encode;
         }

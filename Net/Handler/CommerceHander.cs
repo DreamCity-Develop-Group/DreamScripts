@@ -111,7 +111,8 @@ namespace Assets.Scripts.Net.Handler
                 //TODO 创建商会成功，在许可前同步屏蔽停止，取消屏蔽
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("你已成功获得经营许可证", string.Empty), Color.white);
                 //Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
-                Dispatch(AreaCode.UI,UIEvent.CREATCOMMERCE_CHEXCKPASS, true);
+                Dispatch(AreaCode.UI,UIEvent.CREATCOMMERCE_CHEXCKPASS, false);
+                Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, false);
                 Dispatch(AreaCode.UI, UIEvent.ConfirmationPaymentPanel_Active, false);
                 Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
             }

@@ -16,8 +16,10 @@
 using System.Collections.Generic;
 using Assets.Scripts.Audio;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Language;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net;
+using Assets.Scripts.UI.Msg;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -94,8 +96,11 @@ namespace Assets.Scripts.UI.MenuUI
         private GameObject FriendTitle;
         private GameObject SquareTitle;
         private GameObject ApplyTitle;
+
+        HintMsg promptMsg;
         private void Start()
         {
+            promptMsg = new HintMsg();
             inputSearch = transform.Find("bg/InputSearch").GetComponent<InputField>();
             btnFriend = transform.Find("bg/BtnFriend").GetComponent<Button>();
             btnApply = transform.Find("bg/BtnApply").GetComponent<Button>();
@@ -190,6 +195,8 @@ namespace Assets.Scripts.UI.MenuUI
             Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, true);
             Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false);
+            Dispatch(AreaCode.NET, ReqEventType.listfriend, null);
+
         }
         private void clickApply()
         {
@@ -209,6 +216,11 @@ namespace Assets.Scripts.UI.MenuUI
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
             nickName = inputSearch.text;
+            if (string.IsNullOrEmpty(nickName))
+            {
+                promptMsg.Change(LanguageService.Instance.GetStringByKey("search", string.Empty), Color.white);
+                return;
+            }
             Dispatch(AreaCode.NET, ReqEventType.searchfriend, nickName);
         }
     }
