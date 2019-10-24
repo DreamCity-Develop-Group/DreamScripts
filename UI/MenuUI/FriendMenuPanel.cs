@@ -34,6 +34,24 @@ namespace Assets.Scripts.UI.MenuUI
     private Image SquareBtnClick;         //广场点击按钮换图
     private Image AppyForClick;           //申请点击按钮换图
     private Image SearchClick;            //搜索点击按钮换图
+
+        Button btnFriend;
+        Button btnGround;
+        Button btnSearch;
+        Button btnApply;
+        Button btnClose;
+        InputField inputSearch;    //搜索输入
+
+        List<UserInfos> friendData;
+        List<UserInfos> squareData;
+        List<UserInfos> applyData;
+
+        string nickName;
+        private GameObject FriendTitle;
+        private GameObject SquareTitle;
+        private GameObject ApplyTitle;
+
+        HintMsg promptMsg;
         private void Awake()
         {
             Bind(UIEvent.FRIENDMENU_PANEL_ACTIVE);
@@ -81,23 +99,7 @@ namespace Assets.Scripts.UI.MenuUI
             base.OnDestroy();
         }
 
-        Button btnFriend;
-        Button btnGround;
-        Button btnSearch;
-        Button btnApply;
-        Button btnClose;
-        InputField inputSearch;    //搜索输入
-
-        List<UserInfos> friendData;
-        List<UserInfos> squareData;
-        List<UserInfos> applyData;
-
-        string nickName;
-        private GameObject FriendTitle;
-        private GameObject SquareTitle;
-        private GameObject ApplyTitle;
-
-        HintMsg promptMsg;
+      
         private void Start()
         {
             promptMsg = new HintMsg();
@@ -221,7 +223,16 @@ namespace Assets.Scripts.UI.MenuUI
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("search", string.Empty), Color.white);
                 return;
             }
-            Dispatch(AreaCode.NET, ReqEventType.searchfriend, nickName);
+            //TODO
+            //if ()
+            //{
+
+            //}
+            //else
+            //{
+                Dispatch(AreaCode.NET, ReqEventType.searchfriend, nickName);
+            //}
+            
         }
     }
 }

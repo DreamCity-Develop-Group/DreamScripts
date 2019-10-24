@@ -49,7 +49,7 @@ namespace Assets.Scripts.Net
         //private readonly string address = "ws://192.168.0.102:8010/dream/city/";
         // private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
         // private  string address = "ws://192.168.0.106:8010/dream/city/topic/none";
-        public static string address = "ws://192.168.0.99:8010/dream/city/topic/none";
+        public static string address = "ws://192.168.0.117:8010/dream/city/topic/none";
 
         //private string address;
 
@@ -114,7 +114,7 @@ namespace Assets.Scripts.Net
         {
             //if (_webSocket == null)
             //{
-                //address = "ws://"+"156.236.69.200"+":8010/dream/city/topic/"+"none";
+               // address = "ws://"+"156.236.69.200"+":8010/dream/city/topic/"+"none";
                _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)
                 //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);

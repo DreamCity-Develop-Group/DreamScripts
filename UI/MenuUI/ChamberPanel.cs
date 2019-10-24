@@ -135,7 +135,8 @@ namespace Assets.Scripts.UI.MenuUI
         private string ConversionRateText;
         private ScrollRect _exchangeRect;
         private Transform _exchangeContent;
-       
+
+        private int OrderBuyCount;
         private void Awake()
         {
             Bind(UIEvent.COMMERCE_PANEL_ACTIVE);
@@ -184,7 +185,7 @@ namespace Assets.Scripts.UI.MenuUI
                     _exchangeInfo = message as List<ExchangeInfo>;
                     foreach (var item in _exchangeInfo)
                     {
-                        if ((OrderState)item.status   == OrderState.TOBESHIPPED)
+                        if ((OrderState)item.state == OrderState.TOBESHIPPED)
                         {
                            // UpdateBtnState(item.orderId);
                         }
@@ -433,6 +434,9 @@ namespace Assets.Scripts.UI.MenuUI
             MyEnterpriseClick.SetActive(true);
             ExchangeCenter.gameObject.SetActive(false);
         }
+        /// <summary>
+        /// 更新商会核心成员列表
+        /// </summary>
         private void UpdataMembers()
         {
             //CommonMemberNum.text = count.ToString();
@@ -478,21 +482,32 @@ namespace Assets.Scripts.UI.MenuUI
 
         void UpdateExchangeList(List<ExchangeInfo> listConversion)
         {
+           
             //初步在此生成兑换信息
             if (listConversion.Count > 0)
-            {
+            {               
+                OrderBuyCount = listConversion.Count;
                 for (int i = 0; i < listConversion.Count; i++)
                 {
-                    GameObject obj = null;
-                    if (i % 2 == 0)
+                    //在此更新按钮状态，并防止重复产生
+                    if (exchangeCenterDic.ContainsKey(listConversion[i].orderId))
                     {
-                        obj = CreatePreObj(ExchangeCenterInfoPerfab0, TranExchangeCenterConnet);             
+                        UpdateBtnState(listConversion[i].orderId, (OrderState)listConversion[i].state);
+                        return;
                     }
-                    else
-                    {
-                        obj = CreatePreObj(ExchangeCenterInfoPerfab1, TranExchangeCenterConnet);
-                    }
-
+                    //在此初始化状态，并产生
+                         GameObject obj = null;
+                    
+                        if (i % 2 == 0)
+                        {
+                            obj = CreatePreObj(ExchangeCenterInfoPerfab0, TranExchangeCenterConnet);
+                        }
+                        else
+                        {
+                            obj = CreatePreObj(ExchangeCenterInfoPerfab1, TranExchangeCenterConnet);
+                        }
+                
+                   //在此扩增
                     if (_exchangeContent.childCount >= 5)
                     {
                         float width = _exchangeContent.GetComponent<RectTransform>().rect.width;
@@ -500,18 +515,32 @@ namespace Assets.Scripts.UI.MenuUI
                         float objHeight = obj.GetComponent<RectTransform>().rect.height;
                         _exchangeContent.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height+objHeight);
                     }
+
                     obj.transform.Find("Time").GetComponent<Text>().text = listConversion[i].date;
                     obj.transform.Find("Nummber").GetComponent<Text>().text = listConversion[i].player;
                     obj.transform.Find("MTNum").GetComponent<Text>().text = listConversion[i].amount.ToString("#0.00");
-                    obj.transform.Find("MT").GetComponent<Text>().text = "兑换(MT)";
-                    obj.transform.Find("USDT").GetComponent<Text>().text = "支付(USDT)";
+                    obj.transform.Find("MT").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("兑换", string.Empty)+ "(MT)";
+                    obj.transform.Find("USDT").GetComponent<Text>().text = LanguageService.Instance.GetStringByKey("支付", string.Empty)+ "(USDT)"; 
                     obj.transform.Find("USDTNum").GetComponent<Text>().text = listConversion[i].pay.ToString("#0.00");
-                    if ((OrderState)listConversion[i].status == OrderState.TOBESHIPPED)
+                    Button btnSend = obj.transform.Find("TheDeliveryBtn").GetComponent<Button>();
+                    Button btnRefuse= obj.transform.Find("RefusedToBtn").GetComponent<Button>();
+                  //在此添加监听事件
+                    if ((OrderState)listConversion[i].state == OrderState.PAY|| (OrderState)listConversion[i].state == OrderState.WAITVERIFY)
                     {
-                        obj.transform.Find("TheDeliveryBtn").GetComponent<Button>().onClick.AddListener(() =>
+                        int j = i;
+                        btnSend.onClick.AddListener(() =>
                         {
-                            Dispatch(AreaCode.NET, ReqEventType.commerce_sendmt, listConversion[i].status);
+                            Dispatch(AreaCode.NET, ReqEventType.commerce_sendmt, listConversion[j].orderId);
+                            btnSend.gameObject.SetActive(false);
+                            btnRefuse.gameObject.SetActive(false);
                         });
+                        btnRefuse.onClick.AddListener(() =>
+                        {
+                            Dispatch(AreaCode.NET, ReqEventType.commerce_sendmt, listConversion[j].orderId);
+                            btnSend.gameObject.SetActive(false);
+                             btnRefuse.gameObject.SetActive(false);
+                        });
+                        //发货来了，加入列表!!!
                         if (exchangeCenterDic != null && !exchangeCenterDic.ContainsKey(listConversion[i].orderId))
                             exchangeCenterDic.Add(listConversion[i].orderId, obj);
                     }
@@ -523,50 +552,56 @@ namespace Assets.Scripts.UI.MenuUI
         /// <summary>
         /// 发货按钮状态
         /// </summary>
-        private void UpdateBtnState(OrderState state)
+        private void UpdateBtnState(string orderId,OrderState state)
         {
             if (exchangeCenterDic.Count <1)
             {
                 return;
             }
-            foreach (var item in exchangeCenterDic)
-            {
-                item.Value.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
-                item.Value.transform.Find("HandlingMarks").gameObject.SetActive(true);
+            GameObject item = exchangeCenterDic[orderId];
+                item.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
+                item.transform.Find("HandlingMarks").gameObject.SetActive(true);
                 switch (state)
                 {
+                    case OrderState.PAY:
+                        item.transform.Find("TheDeliveryBtn").gameObject.SetActive(true);
+                        item.transform.Find("RefusedToBtn").gameObject.SetActive(true);
+                        item.transform.Find("HandlingMarks").gameObject.SetActive(false);
+                        break;
                     case OrderState.TOBESHIPPED:
                         //待发货
-                        item.Value.transform.Find("TheDeliveryBtn").gameObject.SetActive(true);
-                        item.Value.transform.Find("RefusedToBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("HandlingMarks").gameObject.SetActive(false);
+                        item.transform.Find("TheDeliveryBtn").gameObject.SetActive(true);
+                        item.transform.Find("RefusedToBtn").gameObject.SetActive(true);
+                        item.transform.Find("HandlingMarks").gameObject.SetActive(false);
                         break;
                     case OrderState.EXPIRED:
                         //过期
-                        item.Value.transform.Find("RefusedToBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("HandlingMarks").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/HaveExpired");
-                        item.Value.transform.Find("HandlingMarks").gameObject.SetActive(true);
-                        exchangeCenterDic.Remove(item.Key);
+                        item.transform.Find("RefusedToBtn").gameObject.SetActive(false);
+                        item.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
+                        item.transform.Find("HandlingMarks").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/HaveExpired");
+                        item.transform.Find("HandlingMarks").gameObject.SetActive(true);
+                        exchangeCenterDic.Remove(orderId);
+                    RePreObj(exchangeCenterDic[orderId]);
                         break;
                     case OrderState.FINISHED:
                         //完成
-                        item.Value.transform.Find("RefusedToBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("HandlingMarks").gameObject.SetActive(false);
-                        exchangeCenterDic.Remove(item.Key);
-                        break;
+                        item.transform.Find("RefusedToBtn").gameObject.SetActive(false);
+                        item.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
+                        item.transform.Find("HandlingMarks").gameObject.SetActive(false);
+                        exchangeCenterDic.Remove(orderId);
+                    RePreObj(exchangeCenterDic[orderId]);
+                    break;
                     case OrderState.REFUSE:
                         //拒绝
-                        item.Value.transform.Find("RefusedToBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
-                        item.Value.transform.Find("HandlingMarks").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/HasRefusedTo");
-                        item.Value.transform.Find("HandlingMarks").gameObject.SetActive(true);
-                        exchangeCenterDic.Remove(item.Key);
-                        break;
+                        item.transform.Find("RefusedToBtn").gameObject.SetActive(false);
+                        item.transform.Find("TheDeliveryBtn").gameObject.SetActive(false);
+                        item.transform.Find("HandlingMarks").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/HasRefusedTo");
+                        item.transform.Find("HandlingMarks").gameObject.SetActive(true);
+                        exchangeCenterDic.Remove(orderId);
+                    RePreObj(exchangeCenterDic[orderId]);
+                    break;
                     default:
                         break;
-                }
             }
         }
      
@@ -612,6 +647,9 @@ namespace Assets.Scripts.UI.MenuUI
         private void OnClickExchangeCenterBtn()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
+           
+            Dispatch(AreaCode.NET, ReqEventType.ExchangeCenter, null);
+            
             ExchangeCenterBG.SetActive(true);
         }
         /// <summary>
@@ -671,9 +709,13 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 //TODO提示
             }
-            else
+            else if(CacheData.Instance().CommerceState==1)
             {
                 Dispatch(AreaCode.NET, ReqEventType.permission_commerce,confirmPass);
+            }
+            else if (CacheData.Instance().CommerceState == 2)
+            {
+                Dispatch(AreaCode.NET, ReqEventType.confirmPass, confirmPass);
             }
            
         }
@@ -693,16 +735,27 @@ namespace Assets.Scripts.UI.MenuUI
         private void OnClickAutomaticDelivery()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            if (CacheData.Instance().SET_AutoState)
+            
+            // Dispatch(AreaCode.NET,ReqEventType.auto_send,"true");
+            AutomaticDeliveryPanel.SetActive(true);
+            if (CacheData.CommerceRestoreMT > CacheData.Instance().Mt)
             {
-                OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[1];
+                OpenOrClose.interactable = false;
+                OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
+                return;
             }
             else
             {
-                OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
+                if (CacheData.Instance().SET_AutoState)
+                {
+                    OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[1];
+                }
+                else
+                {
+                    OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
+                }
+                
             }
-            // Dispatch(AreaCode.NET,ReqEventType.auto_send,"true");
-            AutomaticDeliveryPanel.SetActive(true);
             ExchangeCenterBG.SetActive(false);
             Chamber.SetActive(false);
         }
@@ -712,9 +765,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void OnClickCloseAutomaticDelivery()
         {
             Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_CLICK_AUDIO, "ClickVoice");
-            Dispatch(AreaCode.NET, ReqEventType.auto_send, "false");
             AutomaticDeliveryPanel.SetActive(false);
-            CacheData.Instance().SET_AutoState = false;
             setPanelActive(false);
             ConCamera.IsActivateTouch = true;
         }
@@ -726,25 +777,26 @@ namespace Assets.Scripts.UI.MenuUI
             if (CacheData.Instance().SET_AutoState)
             {
                 OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
-                Dispatch(AreaCode.NET, ReqEventType.auto_send, "false");
+                Dispatch(AreaCode.NET, ReqEventType.auto_send, "no");
+                CacheData.Instance().SET_AutoState = false;
             }
             else
             {
                 if(CacheData.CommerceRestoreMT > CacheData.Instance().Mt)
                 {
-                    OpenOrClose.enabled = false;
+                    OpenOrClose.interactable = false;
                     OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
                     return;
                 }
                 else
                 {
                     OpenOrClose.enabled = true;
-                    Dispatch(AreaCode.NET, ReqEventType.auto_send, "true");
+                    Dispatch(AreaCode.NET, ReqEventType.auto_send, "yes");
                     OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[1];
+                    CacheData.Instance().SET_AutoState = true;
                 }
-              
-            }
             
+            }
         }
         /// <summary>
         /// 自动发货确定
@@ -847,7 +899,7 @@ namespace Assets.Scripts.UI.MenuUI
             foreach (var item in CacheData.Instance().CommerceExchangeMembers)
             {
                
-                 UpdateBtnState((OrderState)item.status);
+                 //UpdateBtnState((OrderState)item.state);
                 
             }
         }

@@ -65,7 +65,7 @@ namespace Assets.Scripts.Net.Request
         {
             UserInfo userinfo = msg as UserInfo;
             //TODO 校验交易密码
-            if (MsgTool.CheckExPass(userinfo.Password))
+            if (!MsgTool.CheckExPass(userinfo.Password))
             {
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("", string.Empty), Color.white);
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
@@ -139,7 +139,7 @@ namespace Assets.Scripts.Net.Request
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
                 return null;
             }
-            if (MsgTool.CheckPass(t["newpw"]))
+            if (!MsgTool.CheckPass(t["newpw"]))
             {
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("408", String.Empty), Color.white);
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);

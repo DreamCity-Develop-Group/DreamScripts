@@ -58,6 +58,9 @@ namespace Assets.Scripts.Model
 
         private int Level;
 
+        private bool IsAutoSend;
+
+        public bool isAutoSend { get => IsAutoSend; set => IsAutoSend = value; }
         public string invite { get; set; }
         /// <summary>
         /// 

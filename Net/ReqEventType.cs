@@ -148,8 +148,9 @@ namespace Assets.Scripts.Net
         public const int exchangNotice = 36;
         public const int checkMoney = 37;
 
-        /// <summary>
-        public const int confrimPass = 38;
+ /// <summary>
+ /// 兑换中心
+ /// </summary>
         public const int ExchangeCenter = 49;
         /// <summary>
         /// 提取usdt
@@ -171,6 +172,11 @@ namespace Assets.Scripts.Net
         /// 好友点赞
         /// </summary>
         public const int GetLike = 54;
+        /// <summary>
+        /// 发货拒绝
+        /// </summary>
+        public const int commerce_refuseMT = 55;
+       
         ///<summary>
         /// 退出登入
         /// </summary>

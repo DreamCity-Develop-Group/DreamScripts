@@ -267,7 +267,7 @@ namespace Assets.Scripts.UI.MenuUI
         }
         private void InitInfo(MenuInfo menuInfo)
         {
-          
+            CacheData.Instance().SET_AutoState = menuInfo.profile.isAutoSend;
             CacheData.Instance().ExchangeRate = menuInfo.rate;
             CacheData.Instance().CommerceLevel = menuInfo.level;
             CacheData.Instance().Mt = menuInfo.account.mt;

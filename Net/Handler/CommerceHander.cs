@@ -28,7 +28,10 @@ namespace Assets.Scripts.Net.Handler
                     dicCommerceDataRespon();
                     break;
                 case ReqEventType.commerce_sendmt:
-                    CommerceMtBuyRespon(value.ToString());
+                    CommerceMtSendRespon(value.ToString());
+                    break;
+                case ReqEventType.commerce_refuseMT:
+                    CommerceMtSendRespon(value.ToString());
                     break;
                 case ReqEventType.commerce_in:
                     CommerceComeInRespon(value.ToString());
@@ -77,7 +80,7 @@ namespace Assets.Scripts.Net.Handler
             if (code.Equals("666"))
             {
                 promptMsg.Change(LanguageService.Instance.GetStringByKey("666", String.Empty), Color.white);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, true);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             }
 
         }
@@ -91,11 +94,48 @@ namespace Assets.Scripts.Net.Handler
             //1,
             if (code.Equals("200"))
             {
-
+                promptMsg.Change(LanguageService.Instance.GetStringByKey("", String.Empty), Color.white);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            }
+            else if (code == "209")
+            {
+                Dispatch(AreaCode.UI, UIEvent.EXECHANGE_PANEL_ACTIVE, "209");
+                return ;
+            }
+            else if (code == "210")
+            {
+                Dispatch(AreaCode.UI, UIEvent.EXECHANGE_PANEL_ACTIVE, "210");
+                return ;
             }
             Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_VIEW, _commerceData);
 
         }
+        /// <summa
+        /// <summary>
+        /// 会长发货Mt
+        /// </summary>
+        private void CommerceMtSendRespon(string code)
+        {
+            //TODO
+            //1,
+            if (code.Equals("200"))
+            {
+                promptMsg.Change(LanguageService.Instance.GetStringByKey("发货", String.Empty), Color.white);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            }
+            else if (code == "209")
+            {
+                Dispatch(AreaCode.UI, UIEvent.EXECHANGE_PANEL_ACTIVE, "209");
+                return;
+            }
+            else if (code == "210")
+            {
+                Dispatch(AreaCode.UI, UIEvent.EXECHANGE_PANEL_ACTIVE, "210");
+                return;
+            }
+        }
+
+
         /// <summary>
         /// 商会许可证
         /// </summary>

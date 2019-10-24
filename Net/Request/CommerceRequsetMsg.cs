@@ -27,6 +27,14 @@ namespace Assets.Scripts.Net.Request
         MessageData<ReqCommerceInfo> messageData = new MessageData<ReqCommerceInfo>();
         ReqCommerceInfo reqCommerceInfo = new ReqCommerceInfo();
         /// <summary>
+        /// 同意发货列表
+        /// </summary>
+        private List<string> agreedOrderList = new List<string>();
+        /// <summary>
+        /// 拒绝发货列表
+        /// </summary>
+        private List<string> refuseOrderList = new List<string>();
+        /// <summary>
         /// 商会请求加入消息
         /// </summary>
         /// <param name="msg"></param>
@@ -79,18 +87,58 @@ namespace Assets.Scripts.Net.Request
         }
 
         /// <summary>
-        /// 会长发放结果
+        /// 会长拒绝发货
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<ReqCommerceInfo> ReqRefuseMTMsg(object msg)
+        {
+            refuseOrderList.Add(msg.ToString());
+            reqCommerceInfo.Change(null, null, null, null, msg.ToString(),null,refuseOrderList);
+            messageData.Change("consumer/tree", SocketEventType.SendMt, reqCommerceInfo);
+            socketMsg.Change(LoginInfo.ClientId, "会长拒绝发货", messageData);
+            return socketMsg;
+        }
+       
+        /// <summary>
+        /// 会长同意发货
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
         public SocketMsg<ReqCommerceInfo> ReqSendMTMsg(object msg)
         {
-            List<string>  ts = msg as List<string>;
-            //t.Add("username", PlayerPrefs.GetString("username"));
-            //t.Add("token",  PlayerPrefs.GetString("token"));
-            reqCommerceInfo.Change(null, null, null, null, msg.ToString(),null,ts);
+            agreedOrderList.Clear();
+            agreedOrderList.Add(msg.ToString());
+            reqCommerceInfo.Change(null, null, null, null,null, null, agreedOrderList);
             messageData.Change("consumer/tree", SocketEventType.SendMt, reqCommerceInfo);
-            socketMsg.Change(LoginInfo.ClientId, "会长发放结果", messageData);
+            socketMsg.Change(LoginInfo.ClientId, "会长同意发货", messageData);
+            return socketMsg;
+        }
+
+        /// <summary>
+        /// 会长设置一键发货
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<ReqCommerceInfo> ReqSendAllMsg(object msg)
+        {
+            agreedOrderList.Clear();
+            agreedOrderList = msg as List<string>;
+            reqCommerceInfo.Change(null, null, null, null, null, null, agreedOrderList);
+            messageData.Change("consumer/tree", SocketEventType.SendMt, reqCommerceInfo);
+            socketMsg.Change(LoginInfo.ClientId, "会长一键发货", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// 会长设置自动发货
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<ReqCommerceInfo> ReqSendAutoMsg(object msg)
+        {
+            reqCommerceInfo.Change(null, null, null, null, null,null,null,0,msg.ToString());
+            messageData.Change("consumer/tree", SocketEventType.SetAutoSend, reqCommerceInfo);
+            socketMsg.Change(LoginInfo.ClientId, "会长设置自动发货", messageData);
             return socketMsg;
         }
         /// <summary>

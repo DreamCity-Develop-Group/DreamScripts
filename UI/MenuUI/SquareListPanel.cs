@@ -36,7 +36,6 @@ namespace Assets.Scripts.UI.MenuUI
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
         List<UserInfos> squareData;
-
         SquareUser squareuser;
         private GameObject PersonalInformationBox1;           //列表信息框预制体1
         private GameObject PersonalInformationBox0;           //列表信息框预制体0  
@@ -45,6 +44,9 @@ namespace Assets.Scripts.UI.MenuUI
         private Button InABatchBtn;                          //换一批按钮
         private string language;
         private int CreateCount = 0;                        //创建个数
+        /// <summary>
+        /// 页码
+        /// </summary>
         private int pageNum=0;
 
 
@@ -65,146 +67,28 @@ namespace Assets.Scripts.UI.MenuUI
                     }
                     break;
                 case UIEvent.SQUARE_LIST_PANEL_VIEW:
-                    squareuser = message as SquareUser;
-                    if (squareuser == null)
+                    if (message == null)
                     {
                         return;
                     }
+                    squareuser = message as SquareUser;
+                    //在此防止重复生成
                     if (pageNum>=squareuser.pageNum)
                     {
                         return;
                     }
-                    squareData = squareuser.list;
-                    if (squareData != null && squareData.Count > 0)
-                    {
-                        GameObject obj = null;
-                        foreach (var t in squareData)
-                        {
-                            if (t.playerId == PlayerPrefs.GetString("playerId")) break;
-                            if(CreateCount%2==0)
-                            {
-                                obj = CreatePreObj(PersonalInformationBox0, ListBox);
-                            }
-                            else
-                            {
-                                obj = CreatePreObj(PersonalInformationBox1, ListBox);
-                            }
-                            CreateCount++;
-                            obj.transform.SetParent(ListBox);
-                            obj.SetActive(true);
-                            list_InformationBox.Add(obj);
-                            //obj里可以查找显示信息的物体，然后在赋值
-                            string friendNick= t.playerId;
-                            obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
-                            obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t.grade) ? "Lv0" : "Lv" + t.grade;
-                            switch (t.agree)
-                            {
-                                case -1:
-                                    obj.transform.Find("Add").GetComponent<Button>().interactable = true;
-                                    obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
-                                    break;
-                                case 0:
-                                    obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
-                                    obj.transform.Find("Add").GetComponent<Button>().interactable = false;
-                                    break;
-                                case 1:
-                                    obj.transform.Find("Add").gameObject.SetActive(false);
-                                    break;
-                            }
-                          
-                            var obj1 = obj;
-                            Button objBtn = obj.transform.Find("Add").GetComponent<Button>();
-                            objBtn.onClick.RemoveAllListeners();
-                            objBtn.onClick.AddListener(() =>
-                            {
-                                obj1.transform.Find("Add").gameObject.SetActive(false);
-                                obj1.transform.Find("Aplied").GetComponent<Image>().sprite= Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
-                                obj1.transform.Find("Aplied").gameObject.SetActive(true);
-                                Dispatch(AreaCode.NET,ReqEventType.addfriend, friendNick);
-                            });
-                            obj.GetComponent<Button>().onClick.AddListener(
-                                () =>
-                                {
-                                    Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t);
-                                    setPanelActive(false);
-                                    Dispatch(AreaCode.UI,UIEvent.FRIENDMENU_PANEL_ACTIVE,false);
-                                    Dispatch(AreaCode.NET, ReqEventType.invest_info, t.playerId);
-                                    ConCamera.IsActivateTouch = true;
-                                }
-                            );
-                        }
-                    }
                     pageNum = squareuser.pageNum;
-                    //TODO
+                    squareData = squareuser.list;
+                    UpdateSquareList();
                     break;
                 case UIEvent.SEARCH_PANEL_VIEW:
-
                     if (message == null)
                     {
                         list_InformationBox.Clear();
                         break;
                     }
-                    UserInfos t1= message as UserInfos;
-
-                    for (int i = 0; i < list_InformationBox.Count; i++)
-                    {
-                        RePreObj(list_InformationBox[i]);
-                    }
-                    list_InformationBox.Clear();
-                    GameObject obj2 = null;
-                    if (t1.friendId == PlayerPrefs.GetString("playerId")) break;
-                    if (CreateCount % 2 == 0)
-                    {
-                        obj2 = CreatePreObj(PersonalInformationBox0, ListBox);
-                    }
-                    else
-                    {
-                        obj2 = CreatePreObj(PersonalInformationBox1, ListBox);
-                    }
-                    obj2.transform.SetParent(ListBox);
-                    obj2.SetActive(true);
-                    list_InformationBox.Add(obj2);
-                    //obj里可以查找显示信息的物体，然后在赋值
-                    string friendNick1 = t1.playerId;
-                    obj2.transform.Find("Name").GetComponent<Text>().text = t1.nick;
-                    obj2.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t1.grade) ? "Lv0" : "Lv" + t1.grade;
-                    switch (t1.agree)
-                    {
-                        case -1:
-                            obj2.transform.Find("Add").GetComponent<Button>().interactable = true;
-                            obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
-                            break;
-                        case 0:
-                            obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
-                            obj2.transform.Find("Add").GetComponent<Button>().interactable=false;
-                            break;
-                        case 1:
-                            obj2.transform.Find("Add").gameObject.SetActive(false);
-                            break;
-                    }
-                    //obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
-                    var obj3 = obj2;
-
-                    Button obj2Btn = obj2.transform.Find("Add").GetComponent<Button>();
-                    obj2Btn.onClick.RemoveAllListeners();
-                    obj2Btn.onClick.AddListener(() =>
-                    {
-
-                        obj2.transform.Find("Add").gameObject.SetActive(false);
-                        obj2.transform.Find("Aplied").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
-                        obj2.transform.Find("Aplied").gameObject.SetActive(true);
-                        Dispatch(AreaCode.NET, ReqEventType.addfriend, friendNick1);
-                    });
-                    obj2.GetComponent<Button>().onClick.AddListener(
-                        () =>
-                        {
-                            Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t1);
-                            setPanelActive(false);
-                            Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
-                            Dispatch(AreaCode.NET, ReqEventType.invest_info, t1.playerId);
-                            ConCamera.IsActivateTouch = true;
-                        }
-                    );
+                    UserInfos t1 = message as UserInfos;
+                    SearchSquareUser(t1);
                     break;
                 default:
                     break;
@@ -221,6 +105,143 @@ namespace Assets.Scripts.UI.MenuUI
             language = PlayerPrefs.GetString("language");
             InABatchBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/"+ language+ "/InABatch");
             setPanelActive(false);
+        }
+        /// <summary>
+        /// 搜索广场用户
+        /// </summary>
+        /// <param name="t1"></param>
+        private void SearchSquareUser(UserInfos t1)
+        {
+
+            for (int i = 0; i < list_InformationBox.Count; i++)
+            {
+                RePreObj(list_InformationBox[i]);
+            }
+            list_InformationBox.Clear();
+            GameObject obj2 = null;
+            //屏蔽自己
+            if (t1.friendId == PlayerPrefs.GetString("playerId")) return;
+            if (CreateCount % 2 == 0)
+            {
+                obj2 = CreatePreObj(PersonalInformationBox0, ListBox);
+            }
+            else
+            {
+                obj2 = CreatePreObj(PersonalInformationBox1, ListBox);
+            }
+            obj2.transform.SetParent(ListBox);
+            obj2.SetActive(true);
+            list_InformationBox.Add(obj2);
+            //obj里可以查找显示信息的物体，然后在赋值
+            string friendNick1 = t1.playerId;
+            obj2.transform.Find("Name").GetComponent<Text>().text = t1.nick;
+            obj2.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t1.grade) ? "Lv0" : "Lv" + t1.grade;
+            switch (t1.agree)
+            {
+                case -1:
+                    obj2.transform.Find("Add").GetComponent<Button>().interactable = true;
+                    obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                    break;
+                case 0:
+                    obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                    obj2.transform.Find("Add").GetComponent<Button>().interactable = false;
+                    break;
+                case 1:
+                    obj2.transform.Find("Add").gameObject.SetActive(false);
+                    break;
+            }
+            //obj2.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+            var obj3 = obj2;
+
+            Button obj2Btn = obj2.transform.Find("Add").GetComponent<Button>();
+            obj2Btn.onClick.RemoveAllListeners();
+            obj2Btn.onClick.AddListener(() =>
+            {
+
+                obj2.transform.Find("Add").gameObject.SetActive(false);
+                obj2.transform.Find("Aplied").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                obj2.transform.Find("Aplied").gameObject.SetActive(true);
+                Dispatch(AreaCode.NET, ReqEventType.addfriend, friendNick1);
+            });
+            obj2.GetComponent<Button>().onClick.AddListener(
+                () =>
+                {
+                    Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t1);
+                    setPanelActive(false);
+                    Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
+                    Dispatch(AreaCode.NET, ReqEventType.invest_info, t1.playerId);
+                    ConCamera.IsActivateTouch = true;
+                }
+            );
+        }
+
+
+        private void UpdateSquareList()
+        {
+            if (squareData != null && squareData.Count > 0)
+            {
+              
+                GameObject obj = null;
+                foreach (var t in squareData)
+                {
+                    //屏蔽自己
+                    if (t.friendId == PlayerPrefs.GetString("playerId")) break;
+
+                    //创建列表实例
+                    if (CreateCount % 2 == 0)
+                    {
+                        obj = CreatePreObj(PersonalInformationBox0, ListBox);
+                    }
+                    else
+                    {
+                        obj = CreatePreObj(PersonalInformationBox1, ListBox);
+                    }
+                    CreateCount++;
+                    obj.transform.SetParent(ListBox);
+                    obj.SetActive(true);
+                    list_InformationBox.Add(obj);
+                    //obj里可以查找显示信息的物体，然后在赋值
+                    string friendNick = t.playerId;
+                    obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
+                    obj.transform.Find("LV").GetComponent<Text>().text = string.IsNullOrEmpty(t.grade) ? "Lv0" : "Lv" + t.grade;
+                    switch (t.agree)
+                    {
+                        case -1:
+                            obj.transform.Find("Add").GetComponent<Button>().interactable = true;
+                            obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/AddFriend");
+                            break;
+                        case 0:
+                            obj.transform.Find("Add").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                            obj.transform.Find("Add").GetComponent<Button>().interactable = false;
+                            break;
+                        case 1:
+                            obj.transform.Find("Add").gameObject.SetActive(false);
+                            break;
+                    }
+
+                    var obj1 = obj;
+                    Button objBtn = obj.transform.Find("Add").GetComponent<Button>();
+                    objBtn.onClick.RemoveAllListeners();
+                    objBtn.onClick.AddListener(() =>
+                    {
+                        obj1.transform.Find("Add").gameObject.SetActive(false);
+                        obj1.transform.Find("Aplied").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Applied");
+                        obj1.transform.Find("Aplied").gameObject.SetActive(true);
+                        Dispatch(AreaCode.NET, ReqEventType.addfriend, friendNick);
+                    });
+                    obj.GetComponent<Button>().onClick.AddListener(
+                        () =>
+                        {
+                            Dispatch(AreaCode.UI, UIEvent.LOADING_ACTIVE, t);
+                            setPanelActive(false);
+                            Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
+                            Dispatch(AreaCode.NET, ReqEventType.invest_info, t.playerId);
+                            ConCamera.IsActivateTouch = true;
+                        }
+                    );
+                }
+            }
+          
         }
 
         private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //对象池

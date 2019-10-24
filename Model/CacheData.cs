@@ -29,6 +29,10 @@ namespace Assets.Scripts.Net
         private static readonly object LockHelper = new object();
 
       
+        public static void CleanCache()
+        {
+            _instance = null;
+        }
 
         public static CacheData Instance()
 
@@ -83,6 +87,8 @@ namespace Assets.Scripts.Net
         /// </summary>
         private Dictionary<string,StoreInfo> storeInfoDic=new Dictionary<string, StoreInfo>();
 
+        
+
         private List< StoreInfo> storeInfoList;
         /// <summary>
         /// 是否设置了交易密码
@@ -115,6 +121,7 @@ namespace Assets.Scripts.Net
                 return storeInfoDic;
             }
         }
+
         public Texture2D logo;
         /// <summary>
         /// 公共精灵

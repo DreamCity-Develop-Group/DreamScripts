@@ -346,6 +346,22 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
+                    case ReqEventType.commerceSendMT:
+                         reqCommerceSocketMsg= commerceRequsetMsg.ReqSendAllMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
+                        _wabData.SendMsg(reqCommerceSocketMsg);
+                        break;
+                    case ReqEventType.auto_send:
+                        reqCommerceSocketMsg = commerceRequsetMsg.ReqSendAutoMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
+                        _wabData.SendMsg(reqCommerceSocketMsg);
+                        break;
                     case ReqEventType.ExchangeCenter:
                         reqCommerceSocketMsg = commerceRequsetMsg.ReqExchangeCenterMsg(message);
                         if (reqCommerceSocketMsg == null)
@@ -419,7 +435,9 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         //_wabData.WebSocket.Close(1000, "Bye!");
 
-                       // SceneManager.LoadScene("login");
+                        // SceneManager.LoadScene("login");
+                        //clean cache
+                        CacheData.CleanCache();
                         break;
                     default:
                         break;
@@ -779,12 +797,12 @@ namespace Assets.Scripts.Net
                    
                     setHandler.OnReceive(ReqEventType.expw, msg.data.code);
                     break;
-                case SocketEventType.SetExchangePassWord:
+                case SocketEventType.ChangeShopPass:
                     
                     setHandler.OnReceive(ReqEventType.expwshop, msg.data.code);
                     break;
                 case SocketEventType.SendMt:
-                    commerceHander.OnReceive(ReqEventType.commerce_sendmt, dicRegLogRespon);
+                    commerceHander.OnReceive(ReqEventType.commerce_sendmt, msg.data.code);
                     break;
                 case SocketEventType.AddFriend:
                    

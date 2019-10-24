@@ -74,11 +74,14 @@ namespace Assets.Scripts.Model
     /// <summary>
     /// 兑换状态
     /// </summary>
-        public int status { get; set; }
+        public int state { get; set; }
 
     }
     public enum OrderState
     {
+        /// <summary>
+        /// 取消
+        /// </summary>
         CANCEL=0,
 
         CREATE=1,
@@ -163,10 +166,12 @@ namespace Assets.Scripts.Model
 
         public string playerId;
 
-        public List<string> orderId;
+        public List<string> orders;
+
+        public string isAuto;
 
 
-        public void Change(string ust_count = null, string mt_count = null, string commerce_name = null, string member_name = null, string exchange_result = null, string tradePassword = null, List<string>orderId= null,int page=1)
+        public void Change(string ust_count = null, string mt_count = null, string commerce_name = null, string member_name = null, string exchange_result = null, string tradePassword = null, List<string>orderId= null,int page=1,string isAuto=null)
         {
             this.tradePass = tradePassword;
             this.usdt_count = ust_count;
@@ -174,11 +179,12 @@ namespace Assets.Scripts.Model
             this.invite = commerce_name;
             this.member_name = member_name;
             this.exchange_result = exchange_result;
-            this.orderId = orderId;
+            this.orders = orderId;
             this.page = page;
             username = PlayerPrefs.GetString("username");
             token = PlayerPrefs.GetString("token");
             playerId = PlayerPrefs.GetString("playerId");
+            this.isAuto = isAuto;
         }
     }
 }

@@ -54,10 +54,6 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const string GetCode = "getCode";
         /// <summary>
-        /// 设置交易密码
-        /// </summary>
-        public const string SetExchangePassWord = "expwshop";
-        /// <summary>
         /// 点赞
         /// </summary>
         public const string LikeFriend = "likefriend";
@@ -88,7 +84,7 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 修改密码
         /// </summary>
-        public const string ChangPassWord = "expw";
+        public const string ChangPassWord = "resetLoginPass";
         /// <summary>
         /// 转账
         /// </summary>
@@ -116,7 +112,11 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 会长发货
         /// </summary>
-        public const string SendMt = "sendmt";
+        public const string SendMt = "sendOrder";
+        /// <summary>
+        /// 设置自动发货
+        /// </summary>
+        public const string SetAutoSend = "setAutoSend";
         /// <summary>
         /// 购买MT
         /// </summary>
@@ -150,13 +150,13 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const string ConfirmPass = "check/orderPass";
         /// <summary>
-        /// 
+        /// 创建订单
         /// </summary>
         public const string CheckMoney = "createOrder";
         /// <summary>
-        /// 
+        /// 获取兑换中心数据
         /// </summary>
-        public const string ExchangeCenter = "get/getSalesOrder";
+        public const string ExchangeCenter = "getSalesOrder";
         /// <summary>
         /// 读取信息
         /// </summary>
@@ -167,7 +167,7 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 修改交易密码/设置交易密码
         /// </summary>
-        public const string ChangeShopPass = "expwshop";
+        public const string ChangeShopPass = "resetTradePass";
         /// <summary>
         /// 加入商会
         /// </summary>
